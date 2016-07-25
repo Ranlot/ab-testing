@@ -1,0 +1,18 @@
+{
+    "contents" : "one.prop.z.test <- function(sampleProportion, targetProportion, numberOfEvents) {\n  (sampleProportion - targetProportion) / sqrt(targetProportion * (1 - targetProportion)) * sqrt(numberOfEvents)\n}",
+    "created" : 1469452887459.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1857109397",
+    "id" : "EFDC2D78",
+    "lastKnownWriteTime" : 1469452923,
+    "path" : "~/ab-testing/R/significance.Wiki.R",
+    "project_path" : "R/significance.Wiki.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

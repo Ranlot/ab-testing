@@ -1,0 +1,18 @@
+{
+    "contents" : "makeGenericTest <- function(successRate, testRate, numberOfEvents, generateBootstraps, numberOfBootstraps) {\n  \n  closedTest <- function(repetitionNumber) {\n    \n    #1) generate some empirical data with expected successRate and measure the actual successRate.\n    empiricalData <- generateOneHistory(successRate, numberOfEvents)\n    observedSuccessRate <- empiricalData %>% sum / numberOfEvents\n    \n    #2) generate the bootstrapped samples for empirical p-value estimation (probability that a bootstrap will yield a lower successRate than the testRate)\n    bootstrapsData <- mclapply(1:numberOfBootstraps, generateBootstraps, empiricalHistory = empiricalData, numberOfEvents = numberOfEvents, mc.cores = detectCores() - 1) %>% unlist\n    empirical.P.value <- sum(bootstrapsData < testRate) / numberOfBootstraps\n    \n    #3) theoretical p-value based on \"One-proportion z-test\"\n    #https://en.wikipedia.org/wiki/Statistical_hypothesis_testing\n    theoretical.Z.score <- one.prop.z.test(sampleProportion = observedSuccessRate, targetProportion = testRate, numberOfEvents = numberOfEvents)\n    theoretical.P.value <- 1 - theoretical.Z.score %>% abs %>% pnorm\n    \n    cat(sprintf(\"observedRate = %.4f\\tempirical p-value %.4f\\ttheoretical p-value %.4f\\n\", observedSuccessRate, empirical.P.value, theoretical.P.value))\n  }\n  \n  closedTest\n}",
+    "created" : 1469453122277.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4180961778",
+    "id" : "63617CC5",
+    "lastKnownWriteTime" : 1469453157,
+    "path" : "~/ab-testing/R/empirical.pValue.Tester.R",
+    "project_path" : "R/empirical.pValue.Tester.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

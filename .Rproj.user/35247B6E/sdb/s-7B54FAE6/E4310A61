@@ -1,0 +1,18 @@
+{
+    "contents" : "generateOneHistory <- function(conversionRate, numberOfEvents) {\n  runif(numberOfEvents) <= conversionRate\n}\n\ngenerateBootstraps <- function(repetitionNumber, empiricalHistory, numberOfEvents) {\n  sample(empiricalHistory, numberOfEvents, replace = T) %>% sum / numberOfEvents\n}",
+    "created" : 1469453030219.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1751418665",
+    "id" : "E4310A61",
+    "lastKnownWriteTime" : 1469453071,
+    "path" : "~/ab-testing/R/empirical.History.Generators.R",
+    "project_path" : "R/empirical.History.Generators.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

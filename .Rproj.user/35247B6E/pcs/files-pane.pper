@@ -1,0 +1,9 @@
+{
+    "path" : "~/ab-testing",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
