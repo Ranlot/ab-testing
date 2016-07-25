@@ -1,12 +1,12 @@
 {
-    "contents" : "*.Rproj\nR/ab-tester.R",
+    "contents" : ".Rproj.user/\n*.Rproj\nR/ab-tester.R\n",
     "created" : 1469453329509.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2522323337",
+    "hash" : "1760670044",
     "id" : "F289BB6F",
-    "lastKnownWriteTime" : 1469453357,
+    "lastKnownWriteTime" : 1469455404,
     "path" : "~/ab-testing/.gitignore",
     "project_path" : ".gitignore",
     "properties" : {
