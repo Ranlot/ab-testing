@@ -1,6 +1,6 @@
 makeGenericTest <- function(successRate, testRate, numberOfEvents, generateBootstraps, numberOfBootstraps) {
   
-  closedTest <- function(repetitionNumber) {
+  closedTest <- function() {
     
     #1) generate some empirical data with expected successRate and measure the actual successRate.
     empiricalData <- generateOneHistory(successRate, numberOfEvents)

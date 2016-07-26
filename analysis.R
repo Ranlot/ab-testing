@@ -9,4 +9,4 @@ source("R/empirical.pValue.Tester.R")
 g(successRate, testRate, numberOfEvents, numberOfBootstraps) %=% g(0.11, 0.1, 1000, 1000000)  #define the parameters we wish to investigate
 makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, generateBootstraps, numberOfBootstraps)  #get the significance testing function
 
-sapply(1:5, makeTheTest)
+replicate(5, makeTheTest())
