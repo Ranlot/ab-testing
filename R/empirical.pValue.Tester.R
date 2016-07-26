@@ -13,9 +13,11 @@ makeGenericTest <- function(successRate, testRate, numberOfEvents, generateBoots
     #3) theoretical p-value based on "One-proportion z-test"
     #https://en.wikipedia.org/wiki/Statistical_hypothesis_testing
     theoretical.Z.score <- one.prop.z.test(sampleProportion = observedSuccessRate, targetProportion = testRate, numberOfEvents = numberOfEvents)
-    theoretical.P.value <- 1 - theoretical.Z.score %>% abs %>% pnorm
+    theoretical.P.value <- 1 - theoretical.Z.score %>% pnorm
     
     cat(sprintf("observedRate = %.4f\tempirical p-value %.4f\ttheoretical p-value %.4f\n", observedSuccessRate, empirical.P.value, theoretical.P.value))
+    
+    c("observedRate" = observedSuccessRate, "empirical p-value" = empirical.P.value, "theoretical p-value" = theoretical.P.value)
   }
   
   closedTest
