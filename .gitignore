@@ -3,3 +3,4 @@
 R/ab-tester.R
 .Rproj.user
 .Rhistory
+output/*.csv

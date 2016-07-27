@@ -11,8 +11,8 @@ source("R/Utils/dataSaver.Utils.R")
 #TODO: make a progress bar with pbapply package
 #https://gist.github.com/BERENZ/9236df77bfef83664305
 
-g(successRate, testRate, numberOfEvents) %=% g(0.11, 0.1, 100)  #define the parameters we wish to investigate
-g(numberOfRepetitionsForPvals, numberOfRepetitionsForBootstrap, isPvalueComparison) %=% g(1e5, 1000, T)  #configuration for number of elements in the averaging
+g(successRate, testRate, numberOfEvents) %=% g(0.11, 0.1, 1000)  #define the parameters we wish to investigate
+g(numberOfRepetitionsForPvals, numberOfRepetitionsForBootstrap, isPvalueComparison) %=% g(1e7, 4, F)  #configuration for number of elements in the averaging
 
 makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, isPvalueComparison)  #get the significance testing function
 saveData <- genericSave(successRate, testRate, numberOfEvents, isPvalueComparison)
@@ -27,3 +27,11 @@ if (isPvalueComparison) {
 }
 
 saveData(one.Tailed.Result)
+
+#library(pracma)
+#smallest.pValue <- sort(one.Tailed.Result$`theoretical p-value`[one.Tailed.Result$`theoretical p-value` > 0])[1]
+#largest.pValue <- 1
+#histBreaks <- logspace(log10(smallest.pValue), log10(largest.pValue), n=15)
+#h <- hist(one.Tailed.Result$`theoretical p-value`, breaks=histBreaks, plot = F)
+#plot(h$mids, h$density, log="xy")
+#grid()
