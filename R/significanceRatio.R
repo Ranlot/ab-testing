@@ -2,7 +2,7 @@ testSignificanceRatio <- function(successRate, testRate) {
 
   closedFunction <- function(numberOfEvents) {
     
-  numbOfRepetitions <- 1e5
+  numbOfRepetitions <- 1e6
   
   makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, F)
   

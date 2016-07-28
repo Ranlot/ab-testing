@@ -40,3 +40,21 @@ if (isPvalueComparison) {
 }
 
 
+numbOfSampleSizes <- length(sampleSizes)
+
+g(xLims, yLims) %=% g(c(-10, 1510), c(-0.05, 1.05))
+
+plot(1, type="n", xlab="Sample size", ylab="", xlim=xLims, ylim=yLims)
+par(new=T)
+plotSampleSize <- function(index, dataSet) {
+  relevantData <- dataSet[[index]]
+  plot(relevantData$numberOfEvents, relevantData$fractionOfSignificantRealizations, col=index, 
+       xaxt="n", yaxt="n", xlab="", ylab="", xlim=xLims, ylim=yLims, type="o", lwd=2)
+  par(new=T)
+}
+
+sideEffect <- sapply(1:numbOfSampleSizes, plotSampleSize, dataSet=result)
+grid()
+legend("bottomright", sampleSizes %>% as.character, col=1:numbOfSampleSizes, lwd=2, seg.len = 1)
+dev.off()
+
