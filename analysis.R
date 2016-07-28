@@ -1,5 +1,7 @@
 library(magrittr)
 library(parallel)
+library(pracma)
+library(latex2exp)
 source("R/Utils/smartEquals.R")
 source("R/significance.Wiki.R")
 source("R/empirical.pValue.Tester.R")
@@ -7,12 +9,16 @@ source("R/Utils/plotter.Utils.R")
 source("R/Utils/dataSaver.Utils.R")
 #------------------------------------------------------------------
 
+#how many events to we need in order to be able to say that at least 95% of the p-values are smaller than 0.05
+# -> it means that given such a sample size and the difference you're testing for, there is only a 5% chance that the p-value you find would 
+# be higher than 0.05
+
 #TODO: make a bash script for cleaning out figs/ and output/
 #TODO: make a progress bar with pbapply package
 #https://gist.github.com/BERENZ/9236df77bfef83664305
 
-g(successRate, testRate, numberOfEvents) %=% g(0.11, 0.1, 1000)  #define the parameters we wish to investigate
-g(numberOfRepetitionsForPvals, numberOfRepetitionsForBootstrap, isPvalueComparison) %=% g(1e7, 4, F)  #configuration for number of elements in the averaging
+g(successRate, testRate, numberOfEvents) %=% g(0.14, 0.1, 400)  #define the parameters we wish to investigate
+g(numberOfRepetitionsForPvals, numberOfRepetitionsForBootstrap, isPvalueComparison) %=% g(1e5, 4, F)  #configuration for number of elements in the averaging
 
 makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, isPvalueComparison)  #get the significance testing function
 saveData <- genericSave(successRate, testRate, numberOfEvents, isPvalueComparison)
@@ -28,10 +34,6 @@ if (isPvalueComparison) {
 
 saveData(one.Tailed.Result)
 
-#library(pracma)
-#smallest.pValue <- sort(one.Tailed.Result$`theoretical p-value`[one.Tailed.Result$`theoretical p-value` > 0])[1]
-#largest.pValue <- 1
-#histBreaks <- logspace(log10(smallest.pValue), log10(largest.pValue), n=15)
-#h <- hist(one.Tailed.Result$`theoretical p-value`, breaks=histBreaks, plot = F)
-#plot(h$mids, h$density, log="xy")
-#grid()
+pValueHistogramPlotter(one.Tailed.Result, successRate, testRate, numberOfEvents)
+
+sum(one.Tailed.Result$`theoretical p-value` < 0.05) / numberOfRepetitionsForPvals
