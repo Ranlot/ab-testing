@@ -32,7 +32,10 @@ if (isPvalueComparison) {
   pValueComparator(theoreticalValues = one.Tailed.Result$`theoretical p-value`, empiricalValues = one.Tailed.Result$`empirical p-value`, numberOfRepetitionsForBootstrap)
 } else {
   
-  result <- lapply(c(0.11, 0.12, 0.13, 0.14, 0.15), testSampleSize, testRate=0.1)
+  sampleSizes <- c(0.11, 0.12, 0.13, 0.14, 0.15)
+  
+  result <- lapply(sampleSizes, testSampleSize, testRate=0.1)
+  names(result) <- sampleSizes
   
 }
 
