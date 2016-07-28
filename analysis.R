@@ -31,10 +31,9 @@ if (isPvalueComparison) {
   #TODO: fix the xlim and ylim of the plot
   pValueComparator(theoreticalValues = one.Tailed.Result$`theoretical p-value`, empiricalValues = one.Tailed.Result$`empirical p-value`, numberOfRepetitionsForBootstrap)
 } else {
-  testNumberOfEvents <- testSignificanceRatio(successRate, testRate)
   
-  result <- lapply(seq(100, 1000, by = 100), testNumberOfEvents)
-  result <- do.call(rbind, result) %>% as.data.frame
+  result <- lapply(c(0.11, 0.12, 0.13, 0.14, 0.15), testSampleSize, testRate=0.1)
+  
 }
 
 

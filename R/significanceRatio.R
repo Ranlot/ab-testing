@@ -2,7 +2,7 @@ testSignificanceRatio <- function(successRate, testRate) {
 
   closedFunction <- function(numberOfEvents) {
     
-  numbOfRepetitions <- 1e6
+  numbOfRepetitions <- 1e5
   
   makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, F)
   
@@ -21,4 +21,12 @@ testSignificanceRatio <- function(successRate, testRate) {
   
   closedFunction
   
+}
+
+
+testSampleSize <- function(successRate, testRate) {
+  testNumberOfEvents <- testSignificanceRatio(successRate, testRate)
+  sampleSizeResult <- lapply(seq(100, 1500, by = 100), testNumberOfEvents)
+  sampleSizeResult <- do.call(rbind, sampleSizeResult) %>% as.data.frame
+  sampleSizeResult
 }
