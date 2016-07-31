@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\DeclareMathOperator{\sign}{sign}
+\begin{document}
+
+\section{Normal approximation}
+
+The underlying process is constructed as a sequence of~$N$ Bernoulli trials with success rate~$\tilde{p}$. Under the normal approximation, the PDF of the observed success rate~$f(p)$ is given by:
+\begin{equation}
+f(p) \sim N \left( \tilde{p}, \,\,\, \sqrt[]{\frac{\tilde{p} (1 - \tilde{p})}{N}} \right)
+\end{equation}
+
+\section{One proportion test}
+
+Let's assume that we prepared an actual realization of~$N$~Bernoulli trials.  Our objective is to assign a p-value telling us the probability that the success rate of the observed realization is in fact higher than some test rate~$p_0$. As we saw above (TODO) the first step is to calculate the z-score according to:
+\begin{equation}
+z = \frac{p - p_0}{\sqrt[]{p_0 (1 - p_0)}} \, \sqrt[]{N}
+\end{equation}
+
+\noindent where~$p_0$ is the rate that we are testing against.  A small calculation show that the PDF of the observed z-scores should behave (under the normal approximation) as:
+\begin{equation}
+f(z) \sim N \left( \mu_z , \,\,\, \sigma_z \right) \quad \mbox{with} \quad 
+\begin{cases}
+    \mu_z  & = \left( \tilde{p}  - p_0 \right) \sqrt[]{\frac{N}{p_0 (1 - p_0)}} \\
+    \sigma_z & = \sqrt[]{\frac{\tilde{p} (1 - \tilde{p})}{p_0 (1 - p_0) }}
+  \end{cases}
+\end{equation}
+
+\section{One tailed p-value}
+
+One can then extract the one tailed p-value from the z-score as follows:
+\begin{equation}
+p = \Phi \left( z \right)
+\end{equation}
+
+\noindent where $\Phi$ stands for the cumulative distribution function of the standard normal distribution~$N(0, 1)$.  The inverse function is defined as the quantile function:
+\begin{equation}
+z = \sqrt[]{2} \, \mbox{erfi}(2 p - 1)
+\end{equation}
+
+\noindent We can simplify (and maybe gain more insight) by using the P\'{o}lya approximation:
+\begin{equation}
+\Phi(z) \approx \frac{1}{2} \left[ 1 + \sign(z) \, \, \sqrt[]{1 - \exp \left( - \frac{2 z^2}{\pi} \right)} \right]
+\end{equation}
+
+\noindent Maybe need to use that:
+\begin{equation}
+\sign(z) \approx \lim_{k \rightarrow + \infty} \tanh k z \approx \lim_{\varepsilon \rightarrow 0} \frac{z}{\sqrt[]{z^2 + \varepsilon^2}}
+\end{equation}
+
+
+\end{document}
+
