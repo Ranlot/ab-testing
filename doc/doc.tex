@@ -31,22 +31,22 @@ f(z) \sim N \left( \mu_z , \,\,\, \sigma_z \right) \quad \mbox{with} \quad
 
 One can then extract the one tailed p-value from the z-score as follows:
 \begin{equation}
-p = \Phi \left( z \right)
+p = 1 - \Phi \left( z \right)
 \end{equation}
 
-\noindent where $\Phi$ stands for the cumulative distribution function of the standard normal distribution~$N(0, 1)$.  The inverse function is defined as the quantile function:
-\begin{equation}
-z = \sqrt[]{2} \, \mbox{erfi}(2 p - 1)
-\end{equation}
-
-\noindent We can simplify (and maybe gain more insight) by using the P\'{o}lya approximation:
+\noindent where $\Phi$ stands for the cumulative distribution function of the standard normal distribution~$N(0, 1)$.  Since there are no closed forms for~$\Phi$ and its inverse the quantile function, one has to rely on error functions (and their inverses).  Instead, We can simplify (and maybe gain more insight) by using the P\'{o}lya approximation:
 \begin{equation}
 \Phi(z) \approx \frac{1}{2} \left[ 1 + \sign(z) \, \, \sqrt[]{1 - \exp \left( - \frac{2 z^2}{\pi} \right)} \right]
 \end{equation}
 
-\noindent Maybe need to use that:
+\noindent In addition to its simplicity, this closed form approximation has the advantage that it can easily be inverted such that we eventually get:
 \begin{equation}
-\sign(z) \approx \lim_{k \rightarrow + \infty} \tanh k z \approx \lim_{\varepsilon \rightarrow 0} \frac{z}{\sqrt[]{z^2 + \varepsilon^2}}
+z(p) \approx \sign \left( \frac{1}{2} - p \right) \sqrt[]{\frac{\pi}{2} \log \frac{1}{4 p (1 - p) }}
+\end{equation}
+
+\noindent In the limit~$p \ll 1$, we can simplify the inverse relation to:
+\begin{equation}
+z(p) \approx \sqrt[]{\frac{\pi}{2} \log \frac{1}{4p}} \quad ; \quad \left| \frac{dz}{dp} \right| \approx \sqrt[]{\frac{\pi}{2}} \,\, \frac{1}{2 p \, \, \sqrt[]{\log 1 / 4p}}
 \end{equation}
 
 
