@@ -1,3 +1,5 @@
+
+
 \documentclass{article}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
@@ -49,6 +51,12 @@ z(p) \approx \sign \left( \frac{1}{2} - p \right) \sqrt[]{\frac{\pi}{2} \log \fr
 z(p) \approx \sqrt[]{\frac{\pi}{2} \log \frac{1}{4p}} \quad ; \quad \left| \frac{dz}{dp} \right| \approx \sqrt[]{\frac{\pi}{2}} \,\, \frac{1}{2 p \, \, \sqrt[]{\log 1 / 4p}}
 \end{equation}
 
+\noindent The ``presumptive'' PDF of p-values ($p \ll 1$) would then be:
+\begin{equation}
+PDF(p) \approx 2^{\frac{\pi}{2\sigma_z^2} - 2} \frac{\exp \left[ - \frac{1}{2} \left( \frac{\mu_z}{\sigma_z} \right)^2 \right] }{\sigma_z}  \frac{\exp \left( \frac{\mu_z}{\sigma_z^2} \, \sqrt[]{\frac{\pi}{2} \log \frac{1}{4p}} \right)  }{p^{1 - \frac{\pi}{4\sigma_z^2}} \sqrt[]{\log \frac{1}{4p}}  }
+\end{equation}
+
+\noindent Note that this expansion is valid only for $p<1/4$.
 
 \end{document}
 
