@@ -1,9 +1,13 @@
 makeGenericTest <- function(successRate, testRate, numberOfEvents, isPvalueComparison) {
   
-  numberOfBootstraps <- 1e6
+  numberOfBootstraps <- 1e5
   
   generateOneHistory <- function() {
     runif(numberOfEvents) <= successRate
+  }
+  
+  generateOneExactHistory <- function() {
+    sum(rbinom(numberOfEvents, 1, successRate))
   }
   
   generateSingleBootstrap <- function(dummyRepetitionIndex, empiricalHistory) {
@@ -37,7 +41,7 @@ makeGenericTest <- function(successRate, testRate, numberOfEvents, isPvalueCompa
       
     } else {
       
-      cat(sprintf("observedRate = %.4f\ttheoretical p-value %.4f\n", observedSuccessRate, theoretical.P.value))
+      #cat(sprintf("observedRate = %.4f\ttheoretical p-value %.4f\n", observedSuccessRate, theoretical.P.value))
       c("observedRate" = observedSuccessRate, "theoretical p-value" = theoretical.P.value)
       
     }

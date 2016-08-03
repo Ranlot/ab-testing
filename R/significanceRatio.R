@@ -2,7 +2,7 @@ testSignificanceRatio <- function(successRate, testRate) {
 
   closedFunction <- function(numberOfEvents) {
     
-  numbOfRepetitions <- 1e6
+  numbOfRepetitions <- 1e7
   
   makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, F)
   
@@ -11,7 +11,7 @@ testSignificanceRatio <- function(successRate, testRate) {
   
   pValueHistogramPlotter(one.Tailed.Result, successRate, testRate, numberOfEvents)
   
-  fractionOfSignificantRealizations <- sum(one.Tailed.Result$`theoretical p-value` < 0.05) / numbOfRepetitions
+  fractionOfSignificantRealizations <- 100 * sum(one.Tailed.Result$`theoretical p-value` < 0.05) / numbOfRepetitions
   
   cat(sprintf("successRate = %s\ttestRate = %s\tsample size = %d\tproportion of significant realizations = %.4f\n", successRate, testRate, numberOfEvents, fractionOfSignificantRealizations))
   
@@ -26,7 +26,8 @@ testSignificanceRatio <- function(successRate, testRate) {
 
 testSampleSize <- function(successRate, testRate) {
   testNumberOfEvents <- testSignificanceRatio(successRate, testRate)
-  sampleSizeResult <- lapply(seq(100, 1500, by = 100), testNumberOfEvents)
+  #sampleSizeResult <- lapply(c(100, 500, 1000, 2000, 3000), testNumberOfEvents)
+  sampleSizeResult <- lapply(c(100, 500), testNumberOfEvents)
   sampleSizeResult <- do.call(rbind, sampleSizeResult) %>% as.data.frame
   sampleSizeResult
 }
