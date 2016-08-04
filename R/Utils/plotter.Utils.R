@@ -1,24 +1,29 @@
 
-pValueComparator <- function(theoreticalValues, empiricalValues, numberOfRepetitions) {
-  
-  png("figs/pValue.Comparison.png")
-  
-  stopifnot(numberOfRepetitions %% 2 == 0)
-  
-  cloudSd <- 0.015
-  cloudPoints <- rnorm(2 * numberOfRepetitions, 0, cloudSd)
-  g(cloudX, cloudY) %=% g(cloudPoints %>% head(numberOfRepetitions / 2), cloudPoints %>% tail(numberOfRepetitions / 2))
-  
-  plot(one.Tailed.Result$`theoretical p-value` + cloudX, one.Tailed.Result$`empirical p-value` + cloudY,
-       xlab = "Theoretical p-value",
-       ylab = "Empirical p-value",
-       main = "Comparison empirical vs. theoretical p-values",
-       cex=1.2, pch=5)
-  abline(0, 1, col="red", lwd=2)
-  grid()
+genericPvalueComparator <- function(successRate, testRate, numberOfEvents) {
+  pValueComparator <- function(theoreticalValues, empiricalValues, numberOfRepetitions) {
     
-  dev.off()
+    png(sprintf("figs/pValue.Comparison_%s_%s_%d.png", successRate, testRate, numberOfEvents))
+    
+    stopifnot(numberOfRepetitions %% 2 == 0)
+    
+    cloudSd <- 0.015
+    cloudPoints <- rnorm(2 * numberOfRepetitions, 0, cloudSd)
+    g(cloudX, cloudY) %=% g(cloudPoints %>% head(numberOfRepetitions / 2), cloudPoints %>% tail(numberOfRepetitions / 2))
+    
+    plot(one.Tailed.Result$`theoretical p-value` + cloudX, one.Tailed.Result$`empirical p-value` + cloudY,
+         xlab = "Theoretical p-value", xlim = c(0, 1),
+         ylab = "Empirical p-value", ylim=c(0, 1),
+         main = "Comparison empirical vs. theoretical p-values",
+         cex=1.2, pch=5)
+    abline(0, 1, col="red", lwd=2)
+    grid()
+    
+    dev.off()
+  }
+  pValueComparator
 }
+
+
 
 pValueHistogramPlotter <- function(dataSet, successRate, testRate, numberOfEvents) {
   
@@ -31,7 +36,7 @@ pValueHistogramPlotter <- function(dataSet, successRate, testRate, numberOfEvent
   histBreaks <- logspace(log10(smallest.pValue), log10(largest.pValue), n=18)
   histo <- hist(dataSet$`theoretical p-value`, breaks=histBreaks, plot = F)
   
-  plotThreshold <- which(histo$counts >  100)
+  plotThreshold <- which(histo$counts >  1e3)
   
   plot(histo$mids[plotThreshold], histo$density[plotThreshold], log="xy", xaxt="n", yaxt="n", xlab="p-value", ylab="prob(p-value)", pch=23, cex=2.7, bg="blue",
        main=TeX(sprintf("$N = $%d\t$\\tilde{p} = %s$\t$p = %s$", numberOfEvents, successRate, testRate)))

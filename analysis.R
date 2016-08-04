@@ -20,10 +20,11 @@ source("R/pPDF.R")
 #TODO: make a progress bar with pbapply package
 #https://gist.github.com/BERENZ/9236df77bfef83664305
 
-g(successRate, testRate, numberOfEvents) %=% g(0.12, 0.1, 5000)  #define the parameters we wish to investigate
-g(numberOfRepetitionsForPvals, numberOfRepetitionsForBootstrap, isPvalueComparison) %=% g(1e5, 4, F)  #configuration for number of elements in the averaging
+g(successRate, testRate, numberOfEvents) %=% g(0.11, 0.1, 100)  #define the parameters we wish to investigate
+g(numberOfRepetitionsForPvals, numberOfRepetitionsForBootstrap, isPvalueComparison) %=% g(1e5, 1e4, T)  #configuration for number of elements in the averaging
 
 makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, isPvalueComparison)  #get the significance testing function
+pValueComparatorPlotter <- genericPvalueComparator(successRate, testRate, numberOfEvents)
 
 #saveData <- genericSave(successRate, testRate, numberOfEvents, isPvalueComparison)
 #saveData(one.Tailed.Result)
@@ -31,17 +32,20 @@ makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents, isPvalueCo
 if (isPvalueComparison) {
   one.Tailed.Result <- replicate(numberOfRepetitionsForBootstrap, makeTheTest()) %>% t %>% as.data.frame
   #TODO: fix the xlim and ylim of the plot
-  pValueComparator(theoreticalValues = one.Tailed.Result$`theoretical p-value`, empiricalValues = one.Tailed.Result$`empirical p-value`, numberOfRepetitionsForBootstrap)
+  
+  pValueComparatorPlotter(one.Tailed.Result$`theoretical p-value`, one.Tailed.Result$`empirical p-value`, numberOfRepetitionsForBootstrap)
 } else {
   
   successRates <- c(0.105, 0.11, 0.115, 0.12, 0.13, 0.14)
+  #successRates <- c(0.8, 0.9)
   
   result <- lapply(successRates, testSampleSize, testRate=0.1)
   names(result) <- successRates
   
+  convergencePlot(successRates, testRate, result)
 }
 
 
-convergencePlot(successRates, testRate, result)
+
 
 
