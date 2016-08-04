@@ -37,3 +37,7 @@ but the interesting question is about how long it takes before we can see this w
 <p align="center">
 <img src="convergencePlot_0.1.png" width="430"/>
 </p>
+
+How to read this graph?  Let's consider the case where the experimental rate is 0.115 as an example.  Notice that this represents a whopping 15% increase compared to the test rate of 0.1.   However, we can see that if you run the experiment for 1000 events (not such a small sample size in practice), there's only a 50% chance that the p-value you would get would reveal the experiment as significantly better than the baseline.  In other words, there's a 50% chance that the p-value would lead you to discard the experiment as not significantly better even though we know for a fact that it is.  In order to have a 95% confidence that the p-value would be significant, one would need to wait until more than 3000 events *(TODO: find the exact number by integrating the PDF of p-values)*
+
+
