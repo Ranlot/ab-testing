@@ -33,3 +33,7 @@ but the interesting question is about how long it takes before we can see this w
 ## Intuitive description of the p-value
 
 ## Finite size effect & statistical significance
+
+<p align="center">
+<img src="convergencePlot_0.1.png" width="430"/>
+</p>
