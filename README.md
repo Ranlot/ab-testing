@@ -2,7 +2,7 @@
 
 ## Objective
 
-Let's consider an experiment in which we are observing a  sequence of `N` Bernoulli trials 
+Let's consider an experiment in which we are observing a  sequence of `N` **independent** Bernoulli trials 
 (whose probability of success is assumed to be constant but unknown).  For the sake of simplicity, we measure the performance
 of this experiment by monitoring an empirical success rate defined as the ratio: `number of successes / N`.  Let's 
 imagine that (through previous experience) we are already aware of some baseline success rate `p0` and that we 
