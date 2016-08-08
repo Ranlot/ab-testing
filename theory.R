@@ -30,10 +30,9 @@ makeOnePval <- function(successRate, testRate, N) {
   1 - one.prop.z.test(observedRate, testRate, N) %>% pnorm
 }
 
-g(successRate, testRate, N) %=% g(0.12, 0.1, 1100)
-numbOfReps <- 1e4
+g(testRate, numbOfReps) %=% g(0.1, 1e5)
 
-successRates <- c(0.105, 0.1075, 0.11, 0.115, 0.12)
+successRates <- c(0.102, 0.105, 0.1075, 0.11, 0.115, 0.12)
 #sampleSizes <- c(100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000)
 sampleSizes <- sapply(logspace(log10(100), log10(10000), n=20), ceil)
 
@@ -96,7 +95,7 @@ result <- do.call(rbind, result) %>% as.data.frame
 png(sprintf("convergencePlot_%s.png", testRate))
 #g(xLims, yLims) %=% g(c(-10, 5010), c(-5, 105))
 g(xLims, yLims) %=% g(c(100, 10000), c(5, 100))
-plot(1, type="n", xlab="Sample size", ylab="", xlim=xLims, ylim=yLims, main=sprintf("Probability of significant p-value\ntest rate p = %s", testRate), log="x")
+plot(1, type="n", xlab="Sample size", ylab="", xlim=xLims, ylim=yLims, main=sprintf("Probability of significant p-value\ntest rate p = %s", testRate), log="x", xaxt="n", yaxt="n")
 par(new=T)
 
 
@@ -106,7 +105,7 @@ whatToPlot <- zipper("successRates", successRates, "plotColors", plotColors)
 
 sideEffect <- sapply(whatToPlot, convergenceSuccessRate, dataSet=result, testRate=testRate)
 
-grid()
+magaxis(grid=T, frame.plot = F)
 legChars <- sapply(successRates, function(x) paste0(round(100 * (x - testRate) / testRate, 3), "%"))
 legend("topleft", legChars, col=plotColors, lwd=2, seg.len = 1, ncol=2)
 dev.off()
