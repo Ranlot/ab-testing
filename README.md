@@ -32,10 +32,22 @@ but the interesting question is about how long it takes before we can see this w
 
 ## Intuitive description of the p-value
 
+Given the assumptions described above, the standard way to investigate statistical significance of the difference between the empirical success rate `p` and the baseline rate `p0` is to apply the so-called "one-proportion z-test":
+<p align="center">
+<img src="doc/onePropZtest.wiki.png" width="400"/>
+</p>
+where the p-value is obtained by using the cumulative distribution function (CDF) of the standard normal distribution.
+
+In order to gain some simple insight into the meaning of this theoretical p-value, we can try to define our own definition of the p-value.  Let's start from our experiment consisting of a single empirical realization of `N` Bernoulli trials with average success rate `p`.  In order to to see how statistically strong the difference between `p` and `p0` is, we can use the bootstrap technique (sampling with replacement) in order to generate many new random realizations of our experiment and simply measure how many of these random samples lead to an observed success rate lower than `p0`.  In other words, we are measuring what is the probability that the experiment would actually be worse than the baseline rate;  this probability precisely defines the p-value. 
+
+As you can see in the plots below, both definitions of the p-value are in excellent agreement with each other.
+
 <p align="center">
 <img src="figs/pValue.Comparison_0.102_0.1_50.png" width="430"/>
 <img src="figs/pValue.Comparison_0.102_0.1_2500.png" width="430"/>
 </p>
+
+In addition to being (maybe) more intuitive, note that this definition is also completely free of whatever assumptions would be required in order to derive the standard theoretical  test.
 
 ## Finite size effect & statistical significance
 
