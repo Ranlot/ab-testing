@@ -1,6 +1,6 @@
 
 genericPvalueComparator <- function(successRate, testRate, numberOfEvents) {
-  pValueComparator <- function(theoreticalValues, empiricalValues, numberOfRepetitions) {
+  pValueComparator <- function(resultDataSet, numberOfRepetitions) {
     
     png(sprintf("figs/pValue.Comparison_%s_%s_%d.png", successRate, testRate, numberOfEvents))
     
@@ -10,10 +10,10 @@ genericPvalueComparator <- function(successRate, testRate, numberOfEvents) {
     cloudPoints <- rnorm(2 * numberOfRepetitions, 0, cloudSd)
     g(cloudX, cloudY) %=% g(cloudPoints %>% head(numberOfRepetitions / 2), cloudPoints %>% tail(numberOfRepetitions / 2))
     
-    plot(one.Tailed.Result$`theoretical p-value` + cloudX, one.Tailed.Result$`empirical p-value` + cloudY,
+    plot(resultDataSet$`theoretical p-value` + cloudX, resultDataSet$`empirical p-value` + cloudY,
          xlab = "Theoretical p-value", xlim = c(0, 1),
          ylab = "Empirical p-value", ylim=c(0, 1),
-         main = "Comparison empirical vs. theoretical p-values",
+         main = sprintf("p = %s ; p0 = %s ; N = %d", successRate, testRate, numberOfEvents),
          cex=1.2, pch=5)
     abline(0, 1, col="red", lwd=2)
     grid()

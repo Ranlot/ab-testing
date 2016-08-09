@@ -30,7 +30,7 @@ makeOnePval <- function(successRate, testRate, N) {
   1 - one.prop.z.test(observedRate, testRate, N) %>% pnorm
 }
 
-g(testRate, numbOfReps) %=% g(0.1, 1e6)
+g(testRate, numbOfReps) %=% g(0.1, 1e5)
 
 successRates <- c(0.096, 0.098, 0.1, 0.102, 0.105, 0.11, 0.12)
 #sampleSizes <- c(100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000)
@@ -43,7 +43,7 @@ testSucessAndSize <- function(params, testRate, numbOfReps) {
   
 
   
-  numericalResult <- sum(replicate(numbOfReps, makeOnePval(successRate, testRate, N) < 0.05)) / numbOfReps
+  numericalResult <- sum(replicate(numbOfReps, makeOnePval(successRate, testRate, N) <= 0.05)) / numbOfReps
   cat(sprintf("successRate = %s ; N = %f ; numericalResult %.4f\n", successRate, N, numericalResult))
   c("successRate" = successRate, "N" = N, "numericalResult" = 100 * numericalResult)
 }
