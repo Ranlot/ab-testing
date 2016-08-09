@@ -32,6 +32,11 @@ but the interesting question is about how long it takes before we can see this w
 
 ## Intuitive description of the p-value
 
+<p align="center">
+<img src="figs/pValue.Comparison_0.102_0.1_50.png" width="430"/>
+<img src="figs/pValue.Comparison_0.102_0.1_2500.png" width="430"/>
+</p>
+
 ## Finite size effect & statistical significance
 
 <p align="center">
