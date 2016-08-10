@@ -1,6 +1,6 @@
 # ab-testing
 
-## Objective
+## Description of the question
 
 Let's consider an experiment in which we are observing a  sequence of `N` **independent** Bernoulli trials 
 (whose probability of success is assumed to be constant but unknown).  For the sake of simplicity, we measure the performance
@@ -49,17 +49,21 @@ In addition to being (maybe) more intuitive, note that this definition is also c
 
 ## Finite size effect & statistical significance
 
+Thanks to the calculations presented in the [additional material](doc/ab-significance.pdf) , we are now in a position to predict what is the probability of observing a significant p-value for given values of `p* ; p0 ; N`.  As one can see in the plot below, the numerical results (points) are in very good agreeement with the theoretical predicions (continuous lines).
+
 <p align="center">
 <img src="convergencePlot_0.1.png" width="430"/>
 </p>
 
 How to read this graph?  
 
-For simplicity, let's start by considering the special case when the true success rate is equal to the baseline rate `p* = p0`.  In this case, the probability of observing a significant p-value is equal to~$5\%$ regardless of the sample size as expected.  In other words, there is only a 5% chance of concluding that the empirical data is better than the baseline rate even though we know that they are actually identical to each other.
+For simplicity, let's start by considering the special case when the true success rate is equal to the baseline rate `p* = p0`.  In this case, the probability of observing a significant p-value is equal to 5% regardless of the sample size as expected.  In other words, there is only a 5% chance of concluding that the empirical data is better than the baseline rate even though we know that they are actually identical to each other.
 
-Let's now consider the case where `p* = 0.115`; a whopping 15% increase compared to a baseline rate of `p0 = 0.1`.   Unfortunately, we can see that if you run the experiment for 1000 events (not such a small sample size in practice), there's only a 50% chance that the p-value you would get would reveal the experiment as significantly better than the baseline.  In other words, there's a 50% chance that the p-value would lead you to discard the experiment as not significantly better even though we know for a fact that it is.  In order to have a 95% confidence that the p-value would be significant, one would need to wait until more than ???TODO??? events. 
+Let's now consider the case where `p* = 0.11`; a whopping 10% increase compared to a baseline rate of `p0 = 0.1`.   Unfortunately, we can see that if you run the experiment for 1,000 events (not such a small sample size in practice), there's only a 30% chance that the p-value you would get would reveal the experiment as significantly better than the baseline.  In other words, there's a 70% chance that the p-value would lead you to discard the experiment as not significantly better even though we know for a fact that it is.  In order to have a 95% confidence that the p-value would be significant, one would need to wait until about 10,000 events.  For a more realistic situation in which there is only a 0.5% increase compared to the same baseline rate, one would need to wait for about 40,000 events before reaching significance...
 
 Note that the same analysis can also be carried out for situations in which the experiment is known to be worse than the baseline `p* < p0`.  For example, let's consider `p0 = 0.1`,  `p* = 0.096` and `N = 1000`.  Despite the fact that the experiment is constructed to be 4% worse than the baseline and that we observed 1000 events, there is still an almost 2% chance that we may conclude the experiment to be (wrongly) better.
 
+## Take home message
 
+With many changes happenning quasi-simultaneoulsy, all of which with some varying degrees of correlations with each other (deployment of new features, seasonal changes, special case scenarios...), real world hypothesis testing is always a tricky topic.  Reaching any decision with some degree of confidence is a particularly thorny adventure.  Here, we considered the ideal situation in which everyting is uncorrelated, stationary and known in advance.  The only question is about the number of observations one needs to wait in order to be able to draw the correct conclusion.  Surprisingly, the rate of convergence towards the truth is remarkably slow indicating that finite size effects may be one the most important factor when analyzing the significance of AB tests. 
 
