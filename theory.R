@@ -4,6 +4,7 @@ library(parallel)
 library(plotrix)
 source("R/Utils/smartEquals.R")
 source("R/significance.Wiki.R")
+library(magicaxis)
 
 theoreticalPDF <- function(successRate, testRate, N) {
   
@@ -30,7 +31,7 @@ makeOnePval <- function(successRate, testRate, N) {
   1 - one.prop.z.test(observedRate, testRate, N) %>% pnorm
 }
 
-g(testRate, numbOfReps) %=% g(0.1, 1e5)
+g(testRate, numbOfReps) %=% g(0.1, 1e4)
 
 successRates <- c(0.096, 0.098, 0.1, 0.102, 0.105, 0.11, 0.12)
 #sampleSizes <- c(100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000)

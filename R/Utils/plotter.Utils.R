@@ -12,8 +12,8 @@ genericPvalueComparator <- function(successRate, testRate, numberOfEvents) {
     
     plot(resultDataSet$`theoretical p-value` + cloudX, resultDataSet$`empirical p-value` + cloudY,
          xlab = "Theoretical p-value", xlim = c(0, 1),
-         ylab = "Empirical p-value", ylim=c(0, 1),
-         main = sprintf("p = %s ; p0 = %s ; N = %d", successRate, testRate, numberOfEvents),
+         ylab = "Bootstrapped p-value", ylim=c(0, 1),
+         main = sprintf("p* = %s ; p0 = %s ; N = %d", successRate, testRate, numberOfEvents),
          cex=1.2, pch=5)
     abline(0, 1, col="red", lwd=2)
     grid()

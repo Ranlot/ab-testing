@@ -7,12 +7,9 @@ source("R/Utils/smartEquals.R")
 source("R/significance.Wiki.R")
 source("R/empirical.pValue.Tester.R")
 source("R/Utils/plotter.Utils.R")
-source("R/Utils/dataSaver.Utils.R")
-source("R/significanceRatio.R")
-source("R/pPDF.R")
 #------------------------------------------------------------------
 
-g(successRate, testRate, numberOfEvents, averageSize) %=% g(0.102, 0.1, 2500, 200)  #define the parameters we wish to investigate
+g(successRate, testRate, numberOfEvents, averageSize) %=% g(0.102, 0.1, 50, 200)  #define the parameters we wish to investigate
 
 makeTheTest <- makeGenericTest(successRate, testRate, numberOfEvents)  #get the significance testing function
 pValueComparatorPlotter <- genericPvalueComparator(successRate, testRate, numberOfEvents)
