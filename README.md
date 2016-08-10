@@ -8,7 +8,7 @@ of this experiment by monitoring an empirical success rate defined as the ratio:
 imagine that (through previous experience) we are already aware of some baseline success rate `p0` and that we 
 would like to compare the performance of our current experiement with respect to the baseline.  
 
-The situation described above is quite ubiquitous in systems optimization ranging from ... to ...
+This thought experiment is actually quite ubiquitous in all kinds of systems optimization.
 
 The traditional technique consists in calculating a p-value quantifying the statistical significance of the difference 
 between the success rate observed experimentally and the baseline.  Namely, if the p-value is less than 0.05, the usual conclusion
@@ -53,6 +53,13 @@ In addition to being (maybe) more intuitive, note that this definition is also c
 <img src="convergencePlot_0.1.png" width="430"/>
 </p>
 
-How to read this graph?  Let's consider the case where the experimental rate is 0.115 as an example.  Notice that this represents a whopping 15% increase compared to the test rate of 0.1.   However, we can see that if you run the experiment for 1000 events (not such a small sample size in practice), there's only a 50% chance that the p-value you would get would reveal the experiment as significantly better than the baseline.  In other words, there's a 50% chance that the p-value would lead you to discard the experiment as not significantly better even though we know for a fact that it is.  In order to have a 95% confidence that the p-value would be significant, one would need to wait until more than 3000 events *(TODO: find the exact number by integrating the PDF of p-values)*
+How to read this graph?  
+
+For simplicity, let's start by considering the special case when the true success rate is equal to the baseline rate `p* = p0`.  In this case, the probability of observing a significant p-value is equal to~$5\%$ regardless of the sample size as expected.  In other words, there is only a 5% chance of concluding that the empirical data is better than the baseline rate even though we know that they are actually identical to each other.
+
+Let's now consider the case where `p* = 0.115`; a whopping 15% increase compared to a baseline rate of `p0 = 0.1`.   Unfortunately, we can see that if you run the experiment for 1000 events (not such a small sample size in practice), there's only a 50% chance that the p-value you would get would reveal the experiment as significantly better than the baseline.  In other words, there's a 50% chance that the p-value would lead you to discard the experiment as not significantly better even though we know for a fact that it is.  In order to have a 95% confidence that the p-value would be significant, one would need to wait until more than ???TODO??? events. 
+
+Note that the same analysis can also be carried out for situations in which the experiment is known to be worse than the baseline `p* < p0`.  For example, let's consider `p0 = 0.1`,  `p* = 0.096` and `N = 1000`.  Despite the fact that the experiment is constructed to be 4% worse than the baseline and that we observed 1000 events, there is still an almost 2% chance that we may conclude the experiment to be (wrongly) better.
+
 
 
