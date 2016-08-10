@@ -49,7 +49,7 @@ In addition to being (maybe) more intuitive, note that this definition is also c
 
 ## Finite size effect & statistical significance
 
-Thanks to the calculations presented in the [additional material](doc/ab-significance.pdf) , we are now in a position to predict what is the probability of observing a significant p-value for given values of `p* ; p0 ; N`.  As one can see in the plot below, the numerical results (points) are in very good agreeement with the theoretical predicions (continuous lines).
+Thanks to the calculations presented in the [additional material](doc/ab-significance.pdf) , we are now in a position to predict what is the probability of observing a significant p-value for given values of `p* ; p0 ; N`.  As one can see in the plot below, the numerical results (points) are in very good agreeement with the theoretical predicions (continuous lines corresponding to Equation 6 in the additional material).
 
 <p align="center">
 <img src="convergencePlot_0.1.png" width="430"/>
