@@ -8,13 +8,13 @@ of this experiment by monitoring an empirical success rate defined as the ratio:
 imagine that (through previous experience) we are already aware of some baseline success rate `p0` and that we 
 would like to compare the performance of our current experiement with respect to the baseline.  
 
-This thought experiment is actually quite ubiquitous in all kinds of systems optimization.
+This scenario is actually quite ubiquitous as it appears in all kinds of systems optimization ranging from early 20th century beer tasting (the [historical origin](https://en.wikipedia.org/wiki/William_Sealy_Gosset) of scientific AB tests by William Sealy Gosset at the Guinness Brewery) to modern day marketing and business intelligence running at scale all over the internet.
 
 The traditional technique consists in calculating a p-value quantifying the statistical significance of the difference 
-between the success rate observed experimentally and the baseline.  Namely, if the p-value is less than 0.05, the usual conclusion
-would be that the experiment is performing significantly better than the baseline.
+between the success rate observed experimentally and the baseline.  Namely, if the p-value is less than 0.05, the usual conclusion would be that the experiment is performing significantly better than the baseline.  One should note that even though
+p-values continue to play a significant role in the scientific literature, [doubts have started to emerge](http://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124) recently regarding their trustworthiness especially with regards to the factual conclusions of many research studies.
 
-The objective of this note is to dig a little deeper and expose the fact that finite size effects play a very central role forcing us to rethink the validity of the method  defined above.
+The objective of this note is to dig a little deeper and expose one aspect in which p-value interpretation may be more complicated than it would seem at first sight.  Namely, we will show how finite size effects play may play a very important role forcing us to rethink the validity of the method defined above.
 
 In order to make some sense, let's consider the ideal situation in which we know the true underlying 
 success rate `p*` of the Bernoulli trials.  Picking any `p* > p0` guarantees that the experimental observation
