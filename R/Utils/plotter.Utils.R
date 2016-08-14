@@ -53,25 +53,4 @@ pValueHistogramPlotter <- function(dataSet, successRate, testRate, numberOfEvent
 }
 
 
-convergencePlot <- function(successRates, testRate, relevantData) {
-  
-  png(sprintf("convergencePlot_%s.png", testRate))
-  
-  numbOfSampleSizes <- length(successRates)
-  
-  g(xLims, yLims) %=% g(c(-10, 3010), c(-5, 105))
-  
-  plot(1, type="n", xlab="Sample size", ylab="", xlim=xLims, ylim=yLims, main=sprintf("Probability of significant p-value\ntest rate p = %s", testRate))
-  par(new=T)
-  plotSampleSize <- function(index, dataSet) {
-    relevantData <- dataSet[[index]]
-    plot(relevantData$numberOfEvents, relevantData$fractionOfSignificantRealizations, col=index, 
-         xaxt="n", yaxt="n", xlab="", ylab="", xlim=xLims, ylim=yLims, type="o", lwd=2)
-    par(new=T)
-  }
-  
-  sideEffect <- sapply(1:numbOfSampleSizes, plotSampleSize, dataSet=result)
-  grid()
-  legend("bottomright", successRates %>% as.character, col=1:numbOfSampleSizes, lwd=2, seg.len = 1, ncol=3)
-  dev.off()
-}
+
