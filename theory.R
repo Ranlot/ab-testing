@@ -6,6 +6,7 @@ source("R/Utils/smartEquals.R")
 source("R/Utils/zipper.R")
 source("R/significance.Wiki.R")
 source("R/theoreticalPDF.R")
+source("R/Utils/plotter.Utils.R")
 library(magicaxis)
 
 makeOnePval <- function(successRate, testRate, N) {
@@ -13,7 +14,7 @@ makeOnePval <- function(successRate, testRate, N) {
   1 - one.prop.z.test(observedRate, testRate, N) %>% pnorm
 }
 
-g(testRate, numbOfReps) %=% g(0.1, 1e3)
+g(testRate, numbOfReps) %=% g(0.1, 1e4)
 
 successRates <- c(0.096, 0.098, 0.1, 0.102, 0.105, 0.11, 0.12)
 sampleSizes <- sapply(logspace(log10(100), log10(10000), n=20), ceil)
@@ -40,55 +41,9 @@ generateAllSuccesses <- function(successRates, N) {
 }
 
 
-
-
-
 listOfParams <- do.call(c, lapply(sampleSizes, generateAllSuccesses, successRates=successRates))
 
 result <- mclapply(listOfParams, testSucessAndSize, testRate=testRate, numbOfReps=numbOfReps, mc.cores = detectCores() - 1,  mc.preschedule=F)
-#result <- lapply(listOfParams, testSucessAndSize, testRate=testRate, numbOfReps=numbOfReps)
-
 result <- do.call(rbind, result) %>% as.data.frame
 
-#--------------------------------------------------
-
-individualConvergencePlot <- function(x, testRate, dataSet) {
-  
-  successRate <- x["successRates"] %>% as.double
-  col <- x["plotColors"]
-  
-  relevantData <- dataSet[dataSet$successRate == successRate, ]
-  
-  xN <- logspace(log10(100), log10(10000), n=100)
-  theoreticalValues <- sapply(xN, calcuteTheoreticalFraction, successRate=successRate, testRate=testRate)
-  
-  plot(relevantData$N, relevantData$numericalResult, col=col, xaxt="n", yaxt="n", xlab="", ylab="", xlim=xLims, ylim=yLims, cex=2, pch=5, log="xy")
-  par(new=T)
-  plot(xN, theoreticalValues, xaxt="n", yaxt="n", col=col, xlab="", ylab="", xlim=xLims, ylim=yLims, lwd=3, type="l", log="xy")
-  par(new=T)
-  
-}
-
-
-png(sprintf("convergencePlot_%s.png", testRate))
-g(xLims, yLims) %=% g(c(100, 10000), c(0.5, 100))
-plot(1, type="n", xlab="Sample size", ylab="", xlim=xLims, ylim=yLims, main=sprintf("Probability of significant p-value\ntest rate p = %s", testRate), log="xy", xaxt="n", yaxt="n")
-par(new=T)
-
-
-plotColors <- rainbow(length(successRates))
-
-whatToPlot <- zipper("successRates", successRates, "plotColors", plotColors)
-
-sideEffect <- sapply(whatToPlot, individualConvergencePlot, dataSet=result, testRate=testRate)
-
-magaxis(grid=T, frame.plot = F)
-legChars <- sapply(successRates, function(x) paste0(round(100 * (x - testRate) / testRate, 3), "%"))
-legend(x=95, y=1.9, legChars, col=plotColors, lwd=2, seg.len = 1, ncol=2)
-dev.off()
-
-#--------------------------------------------------
-
-
-
- 
+convergencePlotter(testRate, successRates, individualConvergencePlot)
