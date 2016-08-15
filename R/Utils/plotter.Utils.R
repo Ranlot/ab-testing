@@ -24,11 +24,11 @@ genericPvalueComparator <- function(successRate, testRate, numberOfEvents) {
 }
 
 
-convergencePlotter <- function(testRate, successRates, individualConvergencePlot) {
+convergencePlotter <- function(testRate, successRates, individualConvergencePlot, minSampleSize, maxSampleSize) {
   
-  png(sprintf("convergencePlot_%s.png", testRate))
+  png(sprintf("figs/convergencePlot_%s.png", testRate))
   
-  g(xLims, yLims) %=% g(c(100, 10000), c(0.5, 100))
+  g(xLims, yLims) %=% g(c(minSampleSize, maxSampleSize), c(0.2, 100))
   
   individualConvergencePlot <- function(x, testRate, dataSet) {
     
@@ -37,10 +37,10 @@ convergencePlotter <- function(testRate, successRates, individualConvergencePlot
     
     relevantData <- dataSet[dataSet$successRate == successRate, ]
     
-    xN <- logspace(log10(100), log10(10000), n=100)
+    xN <- logspace(log10(minSampleSize), log10(maxSampleSize), n=100)
     theoreticalValues <- sapply(xN, calcuteTheoreticalFraction, successRate=successRate, testRate=testRate)
     
-    plot(relevantData$N, relevantData$numericalResult, col=col, xaxt="n", yaxt="n", xlab="", ylab="", xlim=xLims, ylim=yLims, cex=2, pch=5, log="xy")
+    plot(relevantData$sampleSize, relevantData$numericalResult, col=col, xaxt="n", yaxt="n", xlab="", ylab="", xlim=xLims, ylim=yLims, cex=2, pch=5, log="xy")
     par(new=T)
     plot(xN, theoreticalValues, xaxt="n", yaxt="n", col=col, xlab="", ylab="", xlim=xLims, ylim=yLims, lwd=3, type="l", log="xy")
     par(new=T)
@@ -57,7 +57,7 @@ convergencePlotter <- function(testRate, successRates, individualConvergencePlot
   
   magaxis(grid=T, frame.plot = F)
   legChars <- sapply(successRates, function(x) paste0(round(100 * (x - testRate) / testRate, 3), "%"))
-  legend(x=95, y=1.9, legChars, col=plotColors, lwd=2, seg.len = 1, ncol=2)
+  legend(x=140, y=0.9, legChars, col=plotColors, lwd=2, seg.len = 1, ncol=2)
   dev.off()
 }
 
