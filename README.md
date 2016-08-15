@@ -55,10 +55,13 @@ In addition to being (maybe) more intuitive, note that this definition is also c
 Thanks to the calculations presented in the [additional material](doc/ab-significance.pdf) , we are now in a position to predict what is the probability of observing a significant p-value for given values of `p* ; p0 ; N`.  As one can see in the plot below, the numerical results (points) are in very good agreeement with the theoretical predicions (continuous lines corresponding to Equation 6 in the additional material).
 
 <p align="center">
-<img src="convergencePlot_0.1.png" width="430"/>
+<img src="figs/convergencePlot_0.1.png" width="430"/>
 </p>
 
-How to read this graph?  
+How to read this graph? (produced by the command below)
+```
+Rscript theory.R
+```
 
 For simplicity, let's start by considering the special case when the true success rate is equal to the baseline rate `p* = p0`.  In this case, the probability of observing a significant p-value is equal to 5% regardless of the sample size as expected.  In other words, there is only a 5% chance of concluding that the empirical data is better than the baseline rate even though we know that they are actually identical to each other.
 
