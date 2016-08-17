@@ -23,7 +23,7 @@ is **by construction** better than the baseline.  However, any real life experim
 As a consequence, the p-value also becomes a random variable (whose probability distribution we will investigate further) that
 depends on `p*`, `p0` and `N`.  The natural question then becomes: "Given `p*` and `p0`, how many events `N` do we need to observe before we can say that the probability to observe a significant p-value is more than 95%?"  
 
-In other words: keeping in mind that if we choose `p* > p0`, it is guaranteed that the experiment is better than the baseline.  But, how long it takes before we can see this with 95% certainty?
+In other words: keeping in mind that if we choose `p* > p0`, it is guaranteed that the experiment is better than the baseline.  But, how long does it takes before we can see this with 95% certainty?
 
 ## Intuitive description of the p-value
 
