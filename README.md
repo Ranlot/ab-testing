@@ -21,12 +21,9 @@ success rate `p*` of the Bernoulli trials.  Picking any `p* > p0` guarantees tha
 is **by construction** better than the baseline.  However, any real life experimental realization can only consist of a finite number `N` of trials.  This means that the empirical success rate `p` is actually a random variable with a Binomial distribution of mean `p*` that has a finite standard deviation decreasing as `1 / sqrt(N)`.
 
 As a consequence, the p-value also becomes a random variable (whose probability distribution we will investigate further) that
-depends on `p*`, `p0` and `N`.  The natural question then becomes: "Given `p*` and `p0`, how many events `N` do we need to observe
-before we can say that the probability to observe a significant p-value is more than 95%?"  
+depends on `p*`, `p0` and `N`.  The natural question then becomes: "Given `p*` and `p0`, how many events `N` do we need to observe before we can say that the probability to observe a significant p-value is more than 95%?"  
 
-In other words: keeping in mind that since we chose `p* > p0`, it is guaranteed that the experiment is better than the baseline
-but the interesting question is about how long it takes before we can see this with 95% certainty for given values of `p*` and `p0`.  
-
+In other words: keeping in mind that if we choose `p* > p0`, it is guaranteed that the experiment is better than the baseline.  But, how long it takes before we can see this with 95% certainty?
 
 ## Intuitive description of the p-value
 
