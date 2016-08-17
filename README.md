@@ -14,7 +14,7 @@ The traditional technique consists in calculating a p-value quantifying the stat
 between the success rate observed experimentally and the baseline.  Namely, if the p-value is less than 0.05, the usual conclusion would be that the experiment is performing significantly better than the baseline.  One should note that even though
 p-values continue to play a significant role in the scientific literature, [doubts have started to emerge](http://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124) recently regarding their trustworthiness especially with regards to the factual conclusions of many research studies.
 
-The objective of this note is to dig a little deeper and expose one aspect in which p-value interpretation may be more complicated than it would seem at first sight.  Namely, we will show how finite size effects play may play a very important role forcing us to rethink the validity of the method defined above.
+The objective of this note is to dig a little deeper and expose one aspect in which p-value interpretation may be more complicated than it would seem at first sight.  Namely, we will show how finite size effects may play a very important role forcing us to rethink the validity of the method defined above.
 
 In order to make some sense, let's consider the ideal situation in which we know the true underlying 
 success rate `p*` of the Bernoulli trials.  Picking any `p* > p0` guarantees that the experimental observation
@@ -36,7 +36,7 @@ Given the assumptions described above, the standard way to investigate statistic
 </p>
 where the p-value is obtained by using the cumulative distribution function (CDF) of the standard normal distribution.
 
-In order to gain some simple insight into the meaning of this theoretical p-value, we can try to define our own definition of the p-value.  Let's start from our experiment consisting of a single empirical realization of `N` Bernoulli trials with average success rate `p`.  In order to to see how statistically strong the difference between `p` and `p0` is, we can use the bootstrap technique (sampling with replacement) in order to generate many new random realizations of our experiment and simply measure how many of these random samples lead to an observed success rate lower than `p0`.  In other words, we are measuring what is the probability that the experiment would actually be worse than the baseline rate;  this probability precisely defines the p-value. 
+In order to gain some simple insight into the meaning of this theoretical p-value, we can try to define our own version of the p-value.  Let's start from our experiment consisting of a single empirical realization of `N` Bernoulli trials with average success rate `p`.  In order to to see how statistically strong the difference between `p` and `p0` is, we can use the bootstrap technique (sampling with replacement) in order to generate many new random realizations of our experiment and simply measure how many of these random samples lead to an observed success rate lower than `p0`.  In other words, we are measuring what is the probability that the experiment would actually be worse than the baseline rate;  this probability precisely defines the p-value. 
 
 As you can see in the plots below, both definitions of the p-value are in excellent agreement with each other.
 ```
@@ -67,7 +67,7 @@ For simplicity, let's start by considering the special case when the true succes
 
 Let's now consider the case where `p* = 0.11`; a whopping 10% increase compared to a baseline rate of `p0 = 0.1`.   Unfortunately, we can see that if you run the experiment for 1,000 events (not such a small sample size in practice), there's only a 30% chance that the p-value you would get would reveal the experiment as significantly better than the baseline.  In other words, there's a 70% chance that the p-value would lead you to discard the experiment as not significantly better even though we know for a fact that it is.  In order to have a 95% confidence that the p-value would be significant, one would need to wait until about 10,000 events.  For a more realistic situation in which there is only a 0.5% increase compared to the same baseline rate, one would need to wait for about 4,000,000 events before reaching significance...
 
-Note that the same analysis can also be carried out for situations in which the experiment is known to be worse than the baseline `p* < p0`.  For example, let's consider `p0 = 0.1`,  `p* = 0.096` and `N = 1000`.  Despite the fact that the experiment is constructed to be 4% worse than the baseline and that we observed 1,000 events, there is still an almost 2% chance that we may conclude the experiment to be (wrongly) better.
+Note that the same analysis can also be carried out for situations in which the experiment is known to be worse than the baseline `p* < p0`.  For example, let's consider `p0 = 0.1`,  `p* = 0.096` and `N = 1000`.  Despite the fact that the experiment is constructed to be 4% worse than the baseline and that we observed 1,000 events, there is still an almost 2% chance that we may conclude the experiment to be statistically (but wrongly) better.
 
 ## Take home message
 
