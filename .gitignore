@@ -5,3 +5,4 @@ R/ab-tester.R
 .Rhistory
 output/*.csv
 .RData
+venv/
