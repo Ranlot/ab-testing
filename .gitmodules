@@ -1,0 +1,3 @@
+[submodule "herokuApp"]
+	path = herokuApp
+	url = https://git.heroku.com/p-value-convergence.git
