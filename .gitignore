@@ -10,3 +10,4 @@ ab-tester-app/include
 ab-tester-app/lib
 ab-tester-app/pip-selfcheck.json
 venv/
+p-value-convergence/
