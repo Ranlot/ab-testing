@@ -5,3 +5,7 @@ R/ab-tester.R
 .Rhistory
 output/*.csv
 .RData
+ab-tester-app/bin
+ab-tester-app/include
+ab-tester-app/lib
+ab-tester-app/pip-selfcheck.json
