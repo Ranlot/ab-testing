@@ -10,12 +10,20 @@ $(document).ready(function() {
 
 });
 
+function addCommas(intNum) {
+  return (intNum + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+}
+
 var convData = {
 	element: 'plotConv',
 	xkey: 'x',
 	ykeys: ['y'],
 	labels: ['y'],
 	parseTime: false,
+	lineColors: ['#F88040'],
+	grid: true,
+	gridTextColor: '#000000',
+	verticalGrid: true,
 	yLabelFormat: function (y) { return y.toFixed(1) + "%"; }
 };
 
@@ -42,7 +50,7 @@ function plotResult(pStar, pBaseLine) {
 		} else if (pStar < pBaseLine)  {
 			var text2print = sampleSizeCut <= maxSampleSize ? "chance of getting significant p-value decreased to about 1% after " + sampleSizeCut + " events; This is despite the fact that we have a guaranteed decrease of " + guaranteedRateChange.toFixed(1) + "%" : "did not converge even after " + maxSampleSize + " events";
 		} else {
-			var text2print = sampleSizeCut <= maxSampleSize ? "number of iterations needed is " + sampleSizeCut + "change is " + guaranteedRateChange.toFixed(1) + "%" : "did not converge even after " + maxSampleSize + " events.  In fact you would need about " + sampleSizeCut + "events";
+			var text2print = "Guaranteed increase of " + guaranteedRateChange.toFixed(1) + "%.  You would need about " + addCommas(sampleSizeCut) + " events"
 		}
 
 		$('#result').text(text2print);
@@ -50,7 +58,7 @@ function plotResult(pStar, pBaseLine) {
 		convData.data = plotData;
 
 		$('#plotConv').empty();
-		new Morris.Line(convData);
+		new Morris.Area(convData);
 
 		});
 }

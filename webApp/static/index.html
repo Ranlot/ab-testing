@@ -15,8 +15,8 @@
 <style>
 /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
+      /*margin-bottom: 0;
+      border-radius: 0;*/
     }
 
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -54,9 +54,9 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <!---<span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span> -->
       </button>
       <a class="navbar-brand">Some ways to contact me for feedback:</a>
     </div>
@@ -91,8 +91,8 @@
     </div>
     <button type="button" id="params_submit" class="btn btn-info">Calculate required number of observations</button>
   </form>
+  <div style="width: 50%;" id="plotConv"></div>
   <div class="navbar-text" id="result"></div>
-  <div id="plotConv"></div>
 
 </div>
 </div> 
