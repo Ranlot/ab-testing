@@ -1,0 +1,12 @@
+
+clear cache with following tricks:
+
+Type in firefox search:
+about:config
+
+search for browser.cache.offline.enable and set to false
+
+Ctrl + F5
+Ctrl + Shift + R
+
+Verify firefox takes right version with firebug add-on; type F12 and select relevant js in scripts tab

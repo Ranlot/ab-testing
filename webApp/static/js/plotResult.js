@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-	$('result').empty();
-
 	$('#params_submit').click(function(event) {
 		event.preventDefault();
 		var pStar = $('input[name=pStar]').val();
@@ -34,17 +32,10 @@ function plotResult(pStar, pBaseLine) {
 
 		var maxSampleSize = 5000;  //this value should actually be inherited from the backend....
 
-
 		var plotData = data['data']
 		var sampleSizeCut = data['sampleSizeCut']
 
-
-		console.log(sampleSizeCut);
-		console.log(maxSampleSize);
-		console.log(sampleSizeCut <= maxSampleSize);
-
-		console.log(pStar === pBaseLine)
-
+		//console.log(sampleSizeCut);
 
 		if (pStar === pBaseLine) {
 			var text2print = "probability of getting significant p-value even though there is absolutely no difference"
@@ -57,6 +48,8 @@ function plotResult(pStar, pBaseLine) {
 		$('#result').text(text2print);
 
 		convData.data = plotData;
+
+		$('#plotConv').empty();
 		new Morris.Line(convData);
 
 		});
