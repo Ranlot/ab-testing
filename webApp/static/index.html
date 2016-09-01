@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>ABconvergence</title>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script type="text/javascript" src="static/js/plotResult.js"></script>
+</head>
+
+
+<body>
+
+
+<h1> Online calculator for p-value significance convergence rate. </h1>
+
+<br> <br>
+
+<h5>Choose the success rates to investigate</h5>
+p* = <input type="text" name="pStar" size="3">
+p0 = <input type="text" name="pBaseLine" size="3">
+<input id="params_submit" type="button" value="Calculate required number of observations">
+</form>
+
+<div id="result"></div>
+<div id="plotConv"></div>
+
+
+</body>
+</html>
