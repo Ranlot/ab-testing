@@ -3,30 +3,100 @@
 
 <head>
 <title>ABconvergence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="static/js/plotResult.js"></script>
-</head>
 
+<style>
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+</style>
+</head>
 
 <body>
 
 
-<h1> Online calculator for p-value significance convergence rate. </h1>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand">Some ways to contact me for feedback:</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+	<li><a href="https://github.com/Ranlot">GitHub</a></li>
+        <li><a href="https://il.linkedin.com/in/laurent-boué-b7923853">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-<br> <br>
 
-<h5>Choose the success rates to investigate</h5>
-p* = <input type="text" name="pStar" size="3">
-p0 = <input type="text" name="pBaseLine" size="3">
-<input id="params_submit" type="button" value="Calculate required number of observations">
-</form>
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <!-- <div class="col-sm-2 sidenav">
+      <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p>
+    </div> -->
+    <div class="col-sm-8 text-left"> 
+      <h3>Real world hypothesis testing: a constant and widespread struggle...</h3>
+  <p>Succint summary of what we are doing here</p>
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="pStar">p* = </label>
+      <input type="text" class="form-control" name="pStar" placeholder="Choose a success rate" size="17">
+    </div>
+    <div class="form-group">
+      <label for="pBaseLine">p0 = </label>
+      <input type="text" class="form-control" name="pBaseLine" placeholder="Choose a baseline rate" size="17">
+    </div>
+    <button type="button" id="params_submit" class="btn btn-info">Calculate required number of observations</button>
+  </form>
+  <div class="navbar-text" id="result"></div>
+  <div id="plotConv"></div>
 
-<div id="result"></div>
-<div id="plotConv"></div>
-
+</div>
+</div> 
+</div>
 
 </body>
 </html>
