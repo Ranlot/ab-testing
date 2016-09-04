@@ -28,6 +28,19 @@ var convData = {
 };
 
 
+var histoData = {
+	element: 'plotHisto',
+	xkey: 'x',
+	ykeys: ['y'],
+	labels: ['y'],
+	parseTime: false,
+	eventStrokeWidth: 4,
+	gridTextColor: '#000000',
+	pointSize: 0,
+	fillOpacity: 0.5
+};
+
+
 function plotResult(pStar, pBaseLine) {
 
 	var guaranteedRateChange = 100. * (pStar - pBaseLine) / pBaseLine
@@ -57,8 +70,16 @@ function plotResult(pStar, pBaseLine) {
 
 		convData.data = plotData;
 
+		//histoData.data = plotData;
+		histoData.events = [1];
+		histoData.data = [{'x':0.1, 'y':5}, {'x':0.2, 'y':3}, {'x':0.3, 'y':1}, {'x':0.4, 'y':5}];
+
 		$('#plotConv').empty();
+		$('#plotHisto').empty();	
+
 		new Morris.Area(convData);
+		new Morris.Area(histoData);
+
 
 		});
 }

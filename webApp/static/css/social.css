@@ -1,0 +1,8 @@
+#share-buttons img {
+	width: 45px;
+	padding: 5px;
+	border: 1;
+	box-shadow: 0;
+	display: inline;
+	vertical-align: top;
+}
