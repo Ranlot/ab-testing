@@ -24,7 +24,9 @@ var convData = {
 	grid: true,
 	gridTextColor: '#000000',
 	verticalGrid: true,
-	yLabelFormat: function (y) { return y.toFixed(1) + "%"; }
+	yLabelFormat: function (y) { return y.toFixed(1) + "%"; },
+	hideHover: false,
+	hoverCallBack: function (index, options, content, row) { return content; }
 };
 
 
@@ -37,7 +39,9 @@ var histoData = {
 	eventStrokeWidth: 4,
 	gridTextColor: '#000000',
 	pointSize: 0,
-	fillOpacity: 0.5
+	fillOpacity: 0.5,
+	yLabelFormat: function (x) { return x.toFixed(2); },
+	xLabelFormat: function (x) { return x['label'].toFixed(4); }
 };
 
 
@@ -56,8 +60,6 @@ function plotResult(pStar, pBaseLine) {
 		var plotData = data['data']
 		var sampleSizeCut = data['sampleSizeCut']
 
-		//console.log(sampleSizeCut);
-
 		if (pStar === pBaseLine) {
 			var text2print = "probability of getting significant p-value even though there is absolutely no difference"
 		} else if (pStar < pBaseLine)  {
@@ -70,16 +72,16 @@ function plotResult(pStar, pBaseLine) {
 
 		convData.data = plotData;
 
-		//histoData.data = plotData;
-		histoData.events = [1];
-		histoData.data = [{'x':0.1, 'y':5}, {'x':0.2, 'y':3}, {'x':0.3, 'y':1}, {'x':0.4, 'y':5}];
+		var histoPlotData = data['normalApprox']['plotData'];
+		var baseLineEvent = data['normalApprox']['morrisFlipIndex'];
+
+		histoData.events = [baseLineEvent];
+		histoData.data = histoPlotData;
 
 		$('#plotConv').empty();
 		$('#plotHisto').empty();	
 
 		new Morris.Area(convData);
 		new Morris.Area(histoData);
-
-
 		});
 }

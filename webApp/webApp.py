@@ -4,6 +4,7 @@ from flask import render_template, Response, jsonify
 from scipy.integrate import quad
 from scipy.special import erfinv
 from scipy.optimize import fsolve
+from scipy.stats import norm
 from math import ceil
 import numpy as np
 from itertools import takewhile
@@ -52,6 +53,21 @@ class Parameters:
 	def _setUp(self, sampleSize):
 		return self._integralCalculator(sampleSize) - 95.0
 
+	def _normalDistrib(self, desiredSampleSize):
+		numbOfPoints = 50
+
+		scaledSTD = np.sqrt(self.pStar * (1.0 - self.pStar) / float(desiredSampleSize))
+		howManySigs = np.abs((self.pStar - self.pBaseLine) / scaledSTD)
+		minRange, maxRange = max(0, self.pStar - 2*howManySigs*scaledSTD), min(1, self.pStar + 2*howManySigs*scaledSTD)
+
+		plotPoints = np.linspace(minRange, maxRange, numbOfPoints)
+		normPoints = [norm.pdf(x, loc=self.pStar, scale=scaledSTD) for x in plotPoints]
+
+		plotData = [{'x':x[0], 'y':x[1]} for x in zip(plotPoints, normPoints)]
+		morrisFlipIndex = min(range(numbOfPoints), key=lambda i: abs(plotData[i]['x'] - self.pBaseLine))
+		
+		return {'plotData':plotData, 'morrisFlipIndex':morrisFlipIndex}
+
 	def getResultSampleSize(self):
 		numbOfPlotPoints = 50
 		minSampleSize, maxSampleSize = 10, 5000
@@ -64,7 +80,7 @@ class Parameters:
 		else:
 			validResults = list(takewhile(lambda plotResult: np.isfinite(plotResult['y']) and plotResult['y'] >= 1.0, plotResults))	
 
-		print validResults
+		#print validResults
 
 		numbOfNecessaryIterations = len(validResults)
 
@@ -79,7 +95,7 @@ class Parameters:
 		else:
 			if self.pStar >= self.pBaseLine:
 				suggestedCut = fsolve(self._setUp, maxSampleSize)[0]
-				print suggestedCut
+				#print suggestedCut
 				verifyCloseness = np.isclose(self._integralCalculator(suggestedCut), 95.0, atol=0.1)
 
 				if verifyCloseness:
@@ -93,7 +109,10 @@ class Parameters:
 			else:
 				sampleSizeCut = 2 * maxSampleSize
 
-		return {'data':validResults, 'sampleSizeCut':sampleSizeCut}
+		normalApprox = self._normalDistrib(sampleSizeCut)
+		print normalApprox
+
+		return {'data':validResults, 'sampleSizeCut':sampleSizeCut, 'normalApprox':self._normalDistrib(sampleSizeCut)}
 
 @app.route('/res', methods=['POST'])
 def getResult():
