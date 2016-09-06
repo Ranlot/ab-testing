@@ -58,7 +58,7 @@ class Parameters:
 
 		scaledSTD = np.sqrt(self.pStar * (1.0 - self.pStar) / float(desiredSampleSize))
 		howManySigs = np.abs((self.pStar - self.pBaseLine) / scaledSTD)
-		minRange, maxRange = max(0, self.pStar - 2*howManySigs*scaledSTD), min(1, self.pStar + 2*howManySigs*scaledSTD)
+		minRange, maxRange = max(0, self.pStar - 1.4*howManySigs*scaledSTD), min(1, self.pStar + 1.4*howManySigs*scaledSTD)
 
 		plotPoints = np.linspace(minRange, maxRange, numbOfPoints)
 		normPoints = [norm.pdf(x, loc=self.pStar, scale=scaledSTD) for x in plotPoints]
@@ -110,7 +110,7 @@ class Parameters:
 				sampleSizeCut = 2 * maxSampleSize
 
 		normalApprox = self._normalDistrib(sampleSizeCut)
-		print normalApprox
+		#print normalApprox
 
 		return {'data':validResults, 'sampleSizeCut':sampleSizeCut, 'normalApprox':self._normalDistrib(sampleSizeCut)}
 
