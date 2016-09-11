@@ -13,7 +13,20 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="static/js/plotResult.js"></script>
 
-<style>
+<style type="text/css">
+
+body {
+	background-image:url('static/css/bg.png');
+	background-attachment:fixed;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#mainText {
+padding-left: 10%;
+padding-right: 10%
+}
+
 /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
       color: red;
@@ -53,8 +66,8 @@
 </style>
 </head>
 
+<!-- <body style="background-color:#FF0000;"> -->
 <body>
-
 
 <nav class="navbar navbar-inverse navbar-custom">
   <div class="container-fluid">
@@ -70,13 +83,12 @@
   </div>
 </nav>
 
-
-<div class="container-fluid text-center">    
-  <div class="row content">
+<div id="mainText" class="container-fluid text-center" >    
+  <div class="content">
     <div class="text-left"> 
       <h3>Real-world hypothesis testing: a dependably treacherous adventure</h3>
 
-<br> <i> If you live to be 100, you've got it made.  Very few people die past that age... </i> <br> <br>
+<i> If you live to be 100, you've got it made.  Very few people die past that age... </i> <br> <br>
 
 <p>
 From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki/William_Sealy_Gosset">historical origin</a> of scientific AB tests by William Sealy Gosset at the Guinness Brewery) to modern day marketing and business intelligence running at scale all over the internet, hypothesis testing stubbornly stands as the common denominator that obfuscates business decisions into a thorny adventure that often leaves behind a cloud of perplexed turbulence.
@@ -91,6 +103,7 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
 <p> In order to see the importance of finite-size effects, let us consider a series of N repeated events where each individual event can only support 2 possible outcomes: "sucess" with some probability p and "failure" with probability of 1-p.  Such a process is known as Bernoulli trials and it is well known that it will lead to a Binomial distribution of mean value p and of standard deviation decreasing as N<sup>-1/2</sup> (inverse square root of the number of events).  
 </p>
 
+<h3> Slow-convergence exposed: see for yourself </h3>
 
   <form class="form-inline">
     <div class="form-group">
