@@ -16,7 +16,7 @@
 <style type="text/css">
 
 body {
-	background-image:url('static/css/bg.png');
+	background-image:url('static/css/bg.jpg');
 	background-attachment:fixed;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -86,35 +86,43 @@ padding-right: 10%
 <div id="mainText" class="container-fluid text-center" >    
   <div class="content">
     <div class="text-left"> 
+
+A more in-depth discussion along with source code and mathematical derivations can be found on this <a href="https://github.com/Ranlot/ab-testing">link</a>.
+
       <h3>Real-world hypothesis testing: a dependably treacherous adventure</h3>
 
-<i> If you live to be 100, you've got it made.  Very few people die past that age... </i> <br> <br>
-
 <p>
-From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki/William_Sealy_Gosset">historical origin</a> of scientific AB tests by William Sealy Gosset at the Guinness Brewery) to modern day marketing and business intelligence running at scale all over the internet, hypothesis testing stubbornly stands as the common denominator that obfuscates business decisions into a thorny adventure that often leaves behind a cloud of perplexed turbulence.
+From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki/William_Sealy_Gosset">historical origin</a> of scientific AB tests by William Sealy Gosset at the Guinness Brewery) to modern day marketing and business intelligence running at scale all over the internet, hypothesis testing usually stands as a pillar upon which business decisions are made.  However, questions reagrding <i>"statistical significance"</i> inescapably and quickly manifest themselves when one tries to provide some interpretation of the results.  Barring an exceptionnally well-designed experimental design, a cloud of perplexed turbulence may start to emerge...  For example, simultaneous changes to the system (such as deployment of new features, seasonal changes, special case scenarios...) and their (perceived or real) correlations with each other are the usual scapegoats which may give real-world hypothesis testing its general air of murkiness when it comes to the interpretation of the results. 
 </p>
 
-<p> Inescepable simultaneous changes to the system (such as deployment of new features, seasonal changes, special case scenarios...) and their (perceived or real) correlations with each other are the usual scapegoats thought to give real-world hypothesis testing its general air of unfortunate murkiness.  Indeed, reaching any decision with some degree of confidence requires a laborious and meticulous execution.
+<p> Our objective is to exemplify one specific (and not widely recognized) factor that contributes to the hazards of hypothesis testing: <b>slow convergence due to finite size-effects</b>.  (One may also use the calculator below in order to get quantitative insights into how to better design their experiments...)
 </p>
 
-<p> The objective of this demonstration is to exemplify one specific (and not widely recognized) factor that contributes to the hazards of hypothesis testing: <b>finite size-effects</b>.  In addition, one may also use the service below in order to get quantitative insights into how to better design their experiments.
+<p> In order to see the importance of finite-size effects, let us consider a series of N repeated events where each individual event can only support 2 possible outcomes: "sucess" with some probability p* and "failure" with probability of 1-p*.  For concreteness, one may think of coin flip in which p* represents the probability of observing a specific side (p* &ne; 1/2 for biased coins).  Alternatively, business intelligence readers may consider p* as the probability to click on a web page.  Note that such a process is known as <a href="https://en.wikipedia.org/wiki/Bernoulli_trial">Bernoulli trials</a> and that its statistical properties are well known.  For example, one can easily see that the statistics eventually converge to a Gaussian distribution of mean value p* and of standard deviation proportional to N<sup>-1/2</sup> (decreasing as the inverse square root of the number of events).
 </p>
 
-<p> In order to see the importance of finite-size effects, let us consider a series of N repeated events where each individual event can only support 2 possible outcomes: "sucess" with some probability p and "failure" with probability of 1-p.  Such a process is known as Bernoulli trials and it is well known that it will lead to a Binomial distribution of mean value p and of standard deviation decreasing as N<sup>-1/2</sup> (inverse square root of the number of events).  
+<p> Now that we know how our events are generated, let us further assume that (perhaps through previous experience) we are already aware of some "baseline success rate" p0 against which we would like to test the performance of our experiment.  The traditional techique consists in measuring our "empirical sucess rate" p and subject it to a statistical significance test against p0 in order to extract a p-value. According to common practice, the statistical test is the so-called <a href="https://en.wikipedia.org/wiki/Statistical_hypothesis_testing">"one-proportion test"</a> and p-values smaller than 0.05 are considered enough to declare the difference between p and p0 as indeed "statistically significant".  Here, it is crucial to realize that because of the finiteness of the number of events N, p is random variable which is only <b>on average</b> equal to the "true success rate" p*.  Unfortunately, one is rarely in a position to run mutliple realizations of the experiment and must usually be satisifed with a single value p of the empirical success rate whose deviation away from p* depend on the sample size N as explained above.  
+</p>
+
+<p> The important consequence is that the p-value obtained by the single test described above cannot be taken at face value since it is itself a random variable with a complicated statistical distribution.  Therefore, an interesting question becomes: Given a "baseline rate" p0, a "true success rate" p* &ge; p0, how many events N do we need until <b>our single test</b> would yield a significant conclusion (as it should) with probability of at least 0.95? Let us re-emphasize that the subtlety here is that we consider only a single empirical realization of the experiment and that as such its observed statstics may differ from that of its underlying generator.</p>
+
+<p> Note that the tool below allows one to also investigate the opposite situation where p* &le; p0.  In this case, we may be interested to know how many events it takes such that the experiment would yield a significant result (clearly wrong here) with a probability of no more than 0.01.
 </p>
 
 <h3> Slow-convergence exposed: see for yourself </h3>
 
+<p><i> Guide: Obviously valid probabilities can only take values between 0 and 1. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though in order to see a true improvement of 5% in performance.</i> </p>
+
   <form class="form-inline">
     <div class="form-group">
       <label for="pStar">p* = </label>
-      <input type="text" class="form-control" name="pStar" placeholder="Choose a success rate" size="17">
+      <input type="text" class="form-control" name="pStar" placeholder="Choose a true success rate" size="21">
     </div>
     <div class="form-group">
       <label for="pBaseLine">p0 = </label>
-      <input type="text" class="form-control" name="pBaseLine" placeholder="Choose a baseline rate" size="17">
+      <input type="text" class="form-control" name="pBaseLine" placeholder="Choose a baseline rate" size="21">
     </div>
-    <button type="button" id="params_submit" class="btn btn-info" style="color: black; background-color: #FFFFC2; border-color: #000000;">Calculate required number of observations</button>
+    <button type="button" id="params_submit" class="btn btn-info" style="color: black; background-color: #FFFFC2; border-color: #000000;">Get required number of observations</button>
   </form>
 
   <div class = "col-md-6 text-center"><div id="plotConv"></div></div>
@@ -124,6 +132,11 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
 
 </div>
 </div> 
+</div>
+
+<div id="mainText">
+<p> The red curve shows the evolution of the probability of observing a significant p-value as a function of the number of events.  The blue histogram shows the position of the baseline rate shown as a vertical green line compared to the probability density function of the empirical success rate p constructed from the underlying Binomial trials with true success rate p*.  Note that the standard deviation is selected by taking N = N*.
+</p>
 </div>
 
 <!-- https://simplesharebuttons.com/html-share-buttons/ -->

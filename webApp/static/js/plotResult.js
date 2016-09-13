@@ -67,9 +67,9 @@ function plotResult(pStar, pBaseLine) {
 		if (pStar === pBaseLine) {
 			var text2print = "probability of getting significant p-value even though there is absolutely no difference"
 		} else if (pStar < pBaseLine)  {
-			var text2print = sampleSizeCut <= maxSampleSize ? "chance of getting significant p-value decreased to about 1% after " + sampleSizeCut + " events; This is despite the fact that we have a guaranteed decrease of " + guaranteedRateChange.toFixed(1) + "%" : "did not converge even after " + maxSampleSize + " events";
+			var text2print = sampleSizeCut <= maxSampleSize ? "The parameters you chose guarantee a decrease in performance of about " + guaranteedRateChange.toFixed(1) + "%. However, the probability to wrongfully a significant p-value would decrease to about 1% only after about  " + addCommas(sampleSizeCut) + " events" : "Did not converge even after " + maxSampleSize + " events";
 		} else {
-			var text2print = "Guaranteed increase of " + guaranteedRateChange.toFixed(1) + "%.  You would need about " + addCommas(sampleSizeCut) + " events"
+			var text2print = "The parameters you chose guarantee an increase in performance of " + guaranteedRateChange.toFixed(1) + "%.  After about " + addCommas(sampleSizeCut) + " events, the probability to get a significant p-value would be at least 0.95."
 		}
 
 		$('#result').text(text2print);
