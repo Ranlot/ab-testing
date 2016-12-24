@@ -16,7 +16,7 @@
 <style type="text/css">
 
 body {
-	background-image:url('static/css/bg.jpg');
+	/*background-image:url('static/css/bg.jpg');*/
 	background-attachment:fixed;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -34,12 +34,16 @@ padding-right: 10%
       border-radius: 0;*/
     }
 
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
-
-    .navbar-custom {
+    .navbar-custom,footer {
       background-color: #736E6D; 
     }
+
+    .navbar-custom {
+      color: white;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
     
     /* Set gray background color and 100% height */
     .sidenav {
@@ -50,7 +54,6 @@ padding-right: 10%
     
     /* Set black background color, white text and some padding */
     footer {
-      background-color: #555;
       color: white;
       padding: 15px;
     }
@@ -68,22 +71,35 @@ padding-right: 10%
 
 <!-- <body style="background-color:#FF0000;"> -->
 <body>
-
+<!--
 <nav class="navbar navbar-inverse navbar-custom">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand navbar-custom">Some ways to contact me for feedback:</a>
+      <a class="navbar-custom">Some ways to contact me for feedback:</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-	<li><a href="https://github.com/Ranlot">GitHub</a></li>
+	<li><a id="github" href="https://github.com/Ranlot">GitHub</a></li>
         <li><a href="https://il.linkedin.com/in/laurent-boué-b7923853">LinkedIn</a></li>
       </ul>
     </div>
   </div>
-</nav>
+</nav>-->
 
-<div id="mainText" class="container-fluid text-center" >    
+<div style="white-space:nowrap;text-align:left; background-color:orange;">
+  <div style="display:inline-block;">
+    Some ways to contact me for feedback:
+  </div>
+  <div style="display:inline-block;">
+    <a href="https://github.com/Ranlot"><img src="static/css/GitHub_Logo.png" alt="GitHub" height="40px" /></a>
+  </div>
+ <div style="display:inline-block;">
+    <a href="https://il.linkedin.com/in/laurent-boué-b7923853"><img src="https://simplesharebuttons.com/images/somacro/linkedin.png" height="40px" alt="LinkedIn" /></a>
+  </div>
+</div>
+
+
+<div id="mainText" class="container-fluid text-center" style="margin-top:20px;">    
   <div class="content">
     <div class="text-left"> 
 
@@ -113,7 +129,7 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
 
 <p><i> Guide: Obviously valid probabilities can only take values between 0 and 1. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though in order to see a true improvement of 5% in performance.</i> </p>
 
-  <form class="form-inline">
+  <form id="myForm" class="form-inline">
     <div class="form-group">
       <label for="pStar">p* = </label>
       <input type="text" class="form-control" name="pStar" placeholder="Choose a true success rate" size="21">
@@ -122,7 +138,7 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
       <label for="pBaseLine">p0 = </label>
       <input type="text" class="form-control" name="pBaseLine" placeholder="Choose a baseline rate" size="21">
     </div>
-    <button type="button" id="params_submit" class="btn btn-info" style="color: black; background-color: #FFFFC2; border-color: #000000;">Get required number of observations</button>
+    <input type="submit" id="params_submit" class="btn btn-info" style="color: black; background-color: #FFFFC2; border-color: #000000;" value="Get required number of observations"/>
   </form>
 
   <div class = "col-md-6 text-center"><div id="plotConv"></div></div>
