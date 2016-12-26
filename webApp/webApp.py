@@ -8,6 +8,7 @@ from scipy.stats import norm
 from math import ceil
 import numpy as np
 from itertools import takewhile
+import re
 
 app = Flask(__name__)
 
@@ -24,15 +25,9 @@ class Parameters:
         	self.pStar = pStar
         	self.pBaseLine = pBaseLine
 
-	def isValid(self):
-		return True
-
     	def convertInput(self):
         	self.pStar = float(self.pStar)
         	self.pBaseLine = float(self.pBaseLine)
-		#self.isValid()
-		#except:
-		#	return "not good"
 
 	def calculateN(self):
 		return self.pStar + self.pBaseLine
@@ -117,7 +112,23 @@ class Parameters:
 @app.route('/res', methods=['POST'])
 def getResult():
 	paramsRequest = request.json
-	params = Parameters(paramsRequest['pStar'], paramsRequest['pBaseLine'])
+	pStar = paramsRequest['pStar']
+	pBaseLine = paramsRequest['pBaseLine']
+	params = Parameters(pStar, pBaseLine)
+	if not re.match("^0?\.\d+$", pStar) or not re.match("^0?\.\d+$", pBaseLine):
+		response = jsonify({'message':'Baseline or success rate incorrect.'})
+		response.status_code = 400
+		return response
+	pStar = float(pStar);
+	pBaseLine = float(pBaseLine);
+	if not np.isclose(pStar, pBaseLine, rtol=0.4):
+		response = jsonify({'message':'This case is not interesting. Go away.'})
+		response.status_code = 400
+		return response
+	if pStar == 0 or pBaseLine == 0:
+		response = jsonify({'message':'Baseline and success rate must be strictly greater than 0.'})
+		response.status_code = 400
+		return response
 	params.convertInput()
 	return jsonify(params.getResultSampleSize())
 

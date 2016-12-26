@@ -20,11 +20,8 @@ body {
 	background-attachment:fixed;
 	background-repeat: no-repeat;
 	background-size: cover;
-}
-
-#mainText {
-padding-left: 10%;
-padding-right: 10%
+	padding-left: 10%;
+	padding-right: 10%;
 }
 
 /* Remove the navbar's default margin-bottom and rounded borders */ 
@@ -32,6 +29,10 @@ padding-right: 10%
       color: red;
       /*margin-bottom: 0;
       border-radius: 0;*/
+    }
+
+    .error {
+      color:red;
     }
 
     .navbar-custom,footer {
@@ -127,7 +128,7 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
 
 <h3> Slow-convergence exposed: see for yourself </h3>
 
-<p><i> Guide: Obviously valid probabilities can only take values between 0 and 1. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though in order to see a true improvement of 5% in performance.</i> </p>
+<p><i> Guide: Valid probabilities can only take values between 0 and 1 exclusive. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though in order to see a true improvement of 5% in performance.</i> </p>
 
   <form id="myForm" class="form-inline">
     <div class="form-group">
@@ -139,6 +140,7 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
       <input type="text" class="form-control" name="pBaseLine" placeholder="Choose a baseline rate" size="21">
     </div>
     <input type="submit" id="params_submit" class="btn btn-info" style="color: black; background-color: #FFFFC2; border-color: #000000;" value="Get required number of observations"/>
+    <span class="error"></span>
   </form>
 
   <div class = "col-md-6 text-center"><div id="plotConv"></div></div>
@@ -146,14 +148,14 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
 
   <div class="navbar-text" id="result"></div>
 
+  <div class="navbar-text" id="graphExplanation">
+    The red curve shows the evolution of the probability of observing a significant p-value as a function of the number of events.  The blue histogram shows the position of the baseline rate shown as a vertical green line compared to the probability density function of the empirical success rate p constructed from the underlying Binomial trials with true success rate p*.  Note that the standard deviation is selected by taking N = N*.
+  </div>
+
 </div>
 </div> 
 </div>
 
-<div id="mainText">
-<p> The red curve shows the evolution of the probability of observing a significant p-value as a function of the number of events.  The blue histogram shows the position of the baseline rate shown as a vertical green line compared to the probability density function of the empirical success rate p constructed from the underlying Binomial trials with true success rate p*.  Note that the standard deviation is selected by taking N = N*.
-</p>
-</div>
 
 <!-- https://simplesharebuttons.com/html-share-buttons/ -->
 <!-- download relevant buttons to local for efficiency and reliability -->
