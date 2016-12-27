@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request
+from flask import request, redirect
 from flask import render_template, Response, jsonify
 from scipy.integrate import quad
 from scipy.special import erfinv
@@ -9,6 +9,7 @@ from math import ceil
 import numpy as np
 from itertools import takewhile
 import re
+import smtplib
 
 app = Flask(__name__)
 
@@ -135,6 +136,33 @@ def getResult():
 @app.route('/')
 def homePage():
 	return app.send_static_file('index.html')
+
+@app.route('/share')
+def socialShare():
+	social = request.args.get('social')
+	send_email('sender@gmail.com', 'somePassword', 'receiver@gmail.com', 'Subject %s' % social, 'Body')
+	return redirect(social, code=302)
+
+def send_email(user, pwd, recipient, subject, body):
+	gmail_user = user
+	gmail_pwd = pwd
+	FROM = user
+	TO = recipient if type(recipient) is list else [recipient]
+	SUBJECT = subject
+	TEXT = body
+
+	# Prepare actual message
+	message = """From: %s\nTo: %s\nSubject: %s\n\n%s
+	""" % (FROM, ", ".join(TO), SUBJECT, TEXT)
+	try:
+		server = smtplib.SMTP("smtp.gmail.com", 587)
+		server.ehlo()
+		server.starttls()
+		server.login(gmail_user, gmail_pwd)
+		server.sendmail(FROM, TO, message)
+		server.close()
+    	except:
+		print 'failed to send mail'
 
 
 if __name__ == "__main__":
