@@ -1,9 +1,10 @@
 $(document).ready(function() {
 
-	$('#graphExplanation').hide();
+	$('#explanationContainer').hide();
 
 	$('#params_submit').click(function(event) {
 		event.preventDefault();
+		$(':focus').blur();
                 var $this = $(this);
 		$this.after($('<img>').attr({'id':'spin','src':'static/css/spin.gif'}));
 		$this.prop('disabled', true);
@@ -63,12 +64,12 @@ $(document).ready(function() {
 			$('#myForm .error').text(xhr.responseJSON.message);
 			$('#plotConv').empty();
 			$('#plotHisto').empty();
-			$('#graphExplanation').hide();
+			$('#explanationContainer').hide();
 			$('#result').empty();
 		});
 		queryResult.done(function(data) {
 
-			$('#graphExplanation').show();
+			$('#explanationContainer').show();
 		        $('#spin').remove();
 			$('#params_submit').prop('disabled', false);
 			$('#myForm .error').text('');
@@ -79,9 +80,9 @@ $(document).ready(function() {
 			var sampleSizeCut = data['sampleSizeCut']
 
 			if (pStar === pBaseLine) {
-				var text2print = "probability of getting significant p-value even though there is absolutely no difference"
+				var text2print = "Probability of getting significant p-value even though there is absolutely no difference."
 			} else if (pStar < pBaseLine)  {
-				var text2print = sampleSizeCut <= maxSampleSize ? "The parameters you chose guarantee a decrease in performance of about " + guaranteedRateChange.toFixed(1) + "%. However, the probability to wrongfully a significant p-value would decrease to about 1% only after about  " + addCommas(sampleSizeCut) + " events" : "Did not converge even after " + maxSampleSize + " events.";
+				var text2print = sampleSizeCut <= maxSampleSize ? "The parameters you chose guarantee a decrease in performance of about " + guaranteedRateChange.toFixed(1) + "%. However, the probability to wrongfully observe a significant p-value would decrease to about 1% only after about  " + addCommas(sampleSizeCut) + " events." : "Did not converge even after " + maxSampleSize + " events.";
 			} else {
 				var text2print = "The parameters you chose guarantee an increase in performance of " + guaranteedRateChange.toFixed(1) + "%.  After about " + addCommas(sampleSizeCut) + " events, the probability to get a significant p-value would be at least 0.95."
 			}

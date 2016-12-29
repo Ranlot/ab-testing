@@ -5,106 +5,53 @@
 <title>ABconvergence</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="static/css/social.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="static/js/plotResult.js"></script>
 
 <style type="text/css">
-
-body {
-	/*background-image:url('static/css/bg.jpg');*/
-	background-attachment:fixed;
-	background-repeat: no-repeat;
-	background-size: cover;
+    body {
 	padding-left: 10%;
 	padding-right: 10%;
-}
-
-/* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      color: red;
-      /*margin-bottom: 0;
-      border-radius: 0;*/
+        line-height: 120%;
+        text-align:justify;
     }
 
     .error {
       color:red;
     }
 
-    .navbar-custom,footer {
-      background-color: #736E6D; 
-    }
-
-    .navbar-custom {
-      color: white;
-    }
-
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-    
-    /* Set black background color, white text and some padding */
     footer {
+      background-color: #736E6D;
       color: white;
-      padding: 15px;
+      padding: 5px;
+      margin: 15px 0px;
+      text-align: center;
     }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;} 
+
+    h3 {
+      font-size:15pt;
     }
+
 </style>
 </head>
 
-<!-- <body style="background-color:#FF0000;"> -->
 <body>
-<!--
-<nav class="navbar navbar-inverse navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-custom">Some ways to contact me for feedback:</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-	<li><a id="github" href="https://github.com/Ranlot">GitHub</a></li>
-        <li><a href="https://il.linkedin.com/in/laurent-boué-b7923853">LinkedIn</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>-->
 
-<div style="white-space:nowrap;text-align:left; background-color:orange;">
-  <div style="display:inline-block;">
-    Some ways to contact me for feedback:
-  </div>
-  <div style="display:inline-block;">
+<div id="mainText">
+  <div style="width:30%;float:right;background-color: #FFFFC2;border-radius: 4px; border: 2px solid;padding:5px;margin-left:30px;margin-bottom:10px;">
+    <div style="text-align:center;">
     <a href="https://github.com/Ranlot"><img src="static/css/GitHub_Logo.png" alt="GitHub" height="40px" /></a>
+    <a href="https://il.linkedin.com/in/laurent-boué-b7923853"><img src="static/css/linkedin.png" height="40px" alt="LinkedIn" /></a>
+    </div>
+    <div style="display:inline-block">
+    More in-depth <a href="https://github.com/Ranlot/ab-testing">discussion</a> along with source code and mathematical derivations.
+    </div>
   </div>
- <div style="display:inline-block;">
-    <a href="https://il.linkedin.com/in/laurent-boué-b7923853"><img src="https://simplesharebuttons.com/images/somacro/linkedin.png" height="40px" alt="LinkedIn" /></a>
-  </div>
-</div>
-
-
-<div id="mainText" class="container-fluid text-center" style="margin-top:20px;">    
-  <div class="content">
-    <div class="text-left"> 
-
-A more in-depth discussion along with source code and mathematical derivations can be found on this <a href="https://github.com/Ranlot/ab-testing">link</a>.
+  <div>
+    <div> 
 
       <h3>Real-world hypothesis testing: a dependably treacherous adventure</h3>
 
@@ -130,56 +77,62 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
 
 <p><i> Guide: Valid probabilities can only take values between 0 and 1 exclusive. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though in order to see a true improvement of 5% in performance.</i> </p>
 
-  <form id="myForm" class="form-inline">
-    <div class="form-group">
+  <form id="myForm">
+    <div style="display:inline-block;">
       <label for="pStar">p* = </label>
-      <input type="text" class="form-control" name="pStar" placeholder="Choose a true success rate" size="21">
+      <input type="text" name="pStar" placeholder="Choose a true success rate" size="21">
     </div>
-    <div class="form-group">
+    <div style="display:inline-block;">
       <label for="pBaseLine">p0 = </label>
-      <input type="text" class="form-control" name="pBaseLine" placeholder="Choose a baseline rate" size="21">
+      <input type="text" name="pBaseLine" placeholder="Choose a baseline rate" size="21">
     </div>
-    <input type="submit" id="params_submit" class="btn btn-info" style="color: black; background-color: #FFFFC2; border-color: #000000;" value="Get required number of observations"/>
+    <input type="submit" id="params_submit" style="background-color: #FFFFC2; border-color: #000000; padding: 4px 8px; border-radius: 4px; border: 1px solid;" value="Get required number of observations"/>
     <span class="error"></span>
   </form>
 
-  <div class = "col-md-6 text-center"><div id="plotConv"></div></div>
-  <div class = "col-md-6 text-center"><div id="plotHisto"></div></div>
+  <div><div id="plotConv" style="display:inline-block;width:49%;"></div><div id="plotHisto" style="display:inline-block;width:49%"></div></div>
 
-  <div class="navbar-text" id="result"></div>
-
-  <div class="navbar-text" id="graphExplanation">
-    The red curve shows the evolution of the probability of observing a significant p-value as a function of the number of events.  The blue histogram shows the position of the baseline rate shown as a vertical green line compared to the probability density function of the empirical success rate p constructed from the underlying Binomial trials with true success rate p*.  Note that the standard deviation is selected by taking N = N*.
+  <div id="explanationContainer" style="width:80%;margin-left:10%;background-color: #FFFFC2; border-color: #000000; border-radius: 4px; border: 1px solid; padding: 4px 8px;">
+  <p id="result"></p>
+  <p id="graphExplanation">
+    The red curve shows the evolution of the probability of observing a significant p-value as a function of the number of events.  The blue histogram shows the position of the baseline rate shown as a vertical green line compared to the probability density function of the empirical success rate p constructed from the underlying Binomial trials with true success rate p*.  Note that the standard deviation is selected by taking N = N*. </p>
   </div>
 
 </div>
 </div> 
 </div>
 
-
-<!-- https://simplesharebuttons.com/html-share-buttons/ -->
-<!-- download relevant buttons to local for efficiency and reliability -->
-
-<footer class="container-fluid text-center">
+<footer>
 <p>Share this:</p>
 <div id="share-buttons">
 	<!-- LinkedIn -->
      	<a href="/share?social=http%3A%2F%2Fwww.linkedin.com%2FshareArticle%3Fmini%3Dtrue%26amp%3Burl%3Dhttps%3A%2F%2Fp-value-convergence.herokuapp.com%2F" target="_blank">
-	<img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
+	<img src="static/css/linkedin.png" alt="LinkedIn" />
      	</a>
 	<!-- Facebook -->
 	<a href="/share?social=http%3A%2F%2Fwww.facebook.com%2Fsharer.php%3Fu%3Dhttps%3A%2F%2Fp-value-convergence.herokuapp.com%2F" target="_blank">
-	<img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+	<img src="static/css/facebook.png" alt="Facebook" />
 	</a>
 	<!-- Twitter -->
 	<a href="/share?social=https%3A%2F%2Ftwitter.com%2Fshare%3Furl%3Dhttps%3A%2F%2Fp-value-convergence.herokuapp.com%2F" target="_blank">
-	<img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+	<img src="static/css/twitter.png" alt="Twitter" />
 	</a>
 	<a href="mailto:?subject=Interesting link about statistical significance...&amp;body=Check out https://p-value-convergence.herokuapp.com/" title="Share by Email">
-        <img src="http://png-2.findicons.com/files/icons/573/must_have/48/mail.png">
+        <img src="static/css/mail.png">
         </a>
 </div>
 </footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89531449-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 </body>
 </html>
