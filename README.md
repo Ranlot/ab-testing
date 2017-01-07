@@ -1,5 +1,7 @@
 # ab-testing
 
+Summary and visualization [tool](https://p-value-convergence.herokuapp.com/)
+
 ## Description of the question
 
 Let's consider an experiment in which we are observing a  sequence of `N` **independent** Bernoulli trials 
