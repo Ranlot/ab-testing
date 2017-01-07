@@ -5,7 +5,6 @@
 <title>ABconvergence</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-<link rel="stylesheet" type="text/css" href="static/css/social.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
@@ -21,11 +20,13 @@
 
     .error {
       color:red;
+      font-weight: bold;
     }
 
     footer {
-      background-color: #736E6D;
-      color: white;
+      /*background-color: #736E6D;*/
+      background-color: #228B22;
+      color: black;
       padding: 5px;
       margin: 15px 0px;
       text-align: center;
@@ -40,42 +41,50 @@
 
 <body>
 
+<h3>Real-world hypothesis testing: a dependably treacherous adventure</h3>
+
 <div id="mainText">
-  <div style="width:30%;float:right;background-color: #FFFFC2;border-radius: 4px; border: 2px solid;padding:5px;margin-left:30px;margin-bottom:10px;">
+  <div style="width:20%;float:right;background-color: #FFFFC2;border-radius: 4px; border: 2px solid;padding:5px;margin-left:30px;margin-bottom:10px;">
     <div style="text-align:center;">
     <a href="https://github.com/Ranlot"><img src="static/css/GitHub_Logo.png" alt="GitHub" height="40px" /></a>
     <a href="https://il.linkedin.com/in/laurent-boué-b7923853"><img src="static/css/linkedin.png" height="40px" alt="LinkedIn" /></a>
     </div>
+    <!--
     <div style="display:inline-block">
     More in-depth <a href="https://github.com/Ranlot/ab-testing">discussion</a> along with source code and mathematical derivations.
-    </div>
+    </div> -->
   </div>
   <div>
     <div> 
 
-      <h3>Real-world hypothesis testing: a dependably treacherous adventure</h3>
+	    <!-- <h3>Real-world hypothesis testing: a dependably treacherous adventure</h3> -->
 
-<p>
-From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki/William_Sealy_Gosset">historical origin</a> of scientific AB tests by William Sealy Gosset at the Guinness Brewery) to modern day marketing and business intelligence running at scale all over the internet, hypothesis testing usually stands as a pillar upon which business decisions are made.  However, questions reagrding <i>"statistical significance"</i> inescapably and quickly manifest themselves when one tries to provide some interpretation of the results.  Barring an exceptionnally well-designed experimental design, a cloud of perplexed turbulence may start to emerge...  For example, simultaneous changes to the system (such as deployment of new features, seasonal changes, special case scenarios...) and their (perceived or real) correlations with each other are the usual scapegoats which may give real-world hypothesis testing its general air of murkiness when it comes to the interpretation of the results. 
+<p> From modern day web-scale marketing campaigns to their <a href="https://en.wikipedia.org/wiki/William_Sealy_Gosset">scientific origins</a> at the Guinness Brewery, <a href="https://en.wikipedia.org/wiki/A/B_testing">AB tests</a> continue to stand as a pillar upon which <i>"intelligent"</i> business decisions are made.  Assessing the conclusiveness of such tests inescapably brings forth the arduous concept of <i>"<a href="https://en.wikipedia.org/wiki/Statistical_significance">statistical significance</a>"</i>.  Indeed, it is now being more and more <a href="https://www.sciencenews.org/blog/context/p-value-ban-small-step-journal-giant-leap-science">publicly acknowledged</a> that hypothesis testing is the point where a cloud of perplexed turbulence often starts to develop...  In addition to its inherently perilous conceptual subtleties,  real-world hypothesis testing has to deal with the fact that AB tests are constantly subjected to numerous and somewhat uncontrollable changes (deployment of new features, seasonality, special case scenarios...). Correlations, perceived or real, between all these effects often endow actionable business decisions reached on the basis of "statistical significance" with an unfortunate sense of murkiness. </p>
+
+<p>Perversely, the purpose of this note is to exemplify one essential (and not widely recognized) factor that contributes to the hazards of hypothesis testing: <b>slow convergence due to finite size-effects</b>.  Note that we will do so by placing ourselves under the most ideal situations where everything about the AB test is known in advance and nothing changes during the experiment as described in the first section below.  The calculator presented in the second section below provides an implementation of the ideas that helps get some quantitative insight... </p>
+
+<h3>Description of the idealized AB test</h3>
+
+<p> In order to see the importance of finite-size effects, let us consider a series of N repeated events where each individual event can only support 2 possible outcomes: "success" with some probability p* and "failure" with probability of 1-p*.  For concreteness, one may think of coin flip in which p* represents the probability of observing a specific side (p* &ne; 1/2 for biased coins).  Alternatively, business intelligence readers may consider p* as the probability to click on a web page.  Obviously, the statistical properties of such <a href="https://en.wikipedia.org/wiki/Bernoulli_trial">Bernoulli trials</a> are well known:  The process eventually converges to a Gaussian distribution of mean value p* and of standard deviation proportional to N<sup>-1/2</sup> (decreasing as the inverse square root of the number of events).
 </p>
 
-<p> Our objective is to exemplify one specific (and not widely recognized) factor that contributes to the hazards of hypothesis testing: <b>slow convergence due to finite size-effects</b>.  (One may also use the calculator below in order to get quantitative insights into how to better design their experiments...)
+<p> Now that we know how our events are generated, let us further assume that (perhaps through previous experience) we are already aware of some "baseline success rate" p0 against which we would like to test the performance of our experiment.  The traditional technique consists in measuring our "empirical success rate" p and in feeding it along with p0 into a statistical significance test in order to extract a p-value. According to common practice, the statistical test is the so-called "<a href="https://en.wikipedia.org/wiki/Statistical_hypothesis_testing">one-proportion test</a>".  If the resulting p-value is smaller than 0.05, we can declare the test as conclusive meaning that the difference between p and p0 is indeed "statistically significant".  Here, it is crucial to realize that because of the finiteness of the number of events N, p is random variable which is only <b>on average</b> equal to the "true success rate" p*.  Unfortunately, one is rarely in a position to run multiple realizations of the experiment and must usually be satisfied with a single value p of the empirical success rate whose deviation away from p* depend on the sample size N.
 </p>
 
-<p> In order to see the importance of finite-size effects, let us consider a series of N repeated events where each individual event can only support 2 possible outcomes: "sucess" with some probability p* and "failure" with probability of 1-p*.  For concreteness, one may think of coin flip in which p* represents the probability of observing a specific side (p* &ne; 1/2 for biased coins).  Alternatively, business intelligence readers may consider p* as the probability to click on a web page.  Note that such a process is known as <a href="https://en.wikipedia.org/wiki/Bernoulli_trial">Bernoulli trials</a> and that its statistical properties are well known.  For example, one can easily see that the statistics eventually converge to a Gaussian distribution of mean value p* and of standard deviation proportional to N<sup>-1/2</sup> (decreasing as the inverse square root of the number of events).
+<h3>The crux of the problem: finite-size effects & slow convergence</h3>
+
+<p> One important consequence is that the p-value obtained by the single test described above cannot be taken at face value since it is itself a random variable with a complicated statistical distribution.  Therefore, an interesting question becomes: </p>
+
+<div style="width:80%;margin-left:10%;background-color: #FFFFC2; border-color: #000000; border-radius: 4px; border: 1px solid; padding: 4px 8px;">
+<p> Given a "baseline rate" p0, a "true success rate" p* &ge; p0, how many events N do we need until <b>our single test</b> would yield a significant conclusion (as it should) with probability of at least 0.95? The calculator below allows you to explore this question and discover a surprisingly slow convergence rate leading to rather high values of N...</p>
+</div>
+
+<p> Note that the tool below allows one to also investigate the opposite situation where p* &le; p0.  In this case, we may be interested to know how many events it takes such that the experiment would yield a significant result (clearly the wrong conclusion) with a probability of no more than 0.01.
 </p>
 
-<p> Now that we know how our events are generated, let us further assume that (perhaps through previous experience) we are already aware of some "baseline success rate" p0 against which we would like to test the performance of our experiment.  The traditional techique consists in measuring our "empirical sucess rate" p and subject it to a statistical significance test against p0 in order to extract a p-value. According to common practice, the statistical test is the so-called <a href="https://en.wikipedia.org/wiki/Statistical_hypothesis_testing">"one-proportion test"</a> and p-values smaller than 0.05 are considered enough to declare the difference between p and p0 as indeed "statistically significant".  Here, it is crucial to realize that because of the finiteness of the number of events N, p is random variable which is only <b>on average</b> equal to the "true success rate" p*.  Unfortunately, one is rarely in a position to run mutliple realizations of the experiment and must usually be satisifed with a single value p of the empirical success rate whose deviation away from p* depend on the sample size N as explained above.  
-</p>
+<h3>Slow convergence exposed: see for yourself</h3>
 
-<p> The important consequence is that the p-value obtained by the single test described above cannot be taken at face value since it is itself a random variable with a complicated statistical distribution.  Therefore, an interesting question becomes: Given a "baseline rate" p0, a "true success rate" p* &ge; p0, how many events N do we need until <b>our single test</b> would yield a significant conclusion (as it should) with probability of at least 0.95? Let us re-emphasize that the subtlety here is that we consider only a single empirical realization of the experiment and that as such its observed statstics may differ from that of its underlying generator.</p>
-
-<p> Note that the tool below allows one to also investigate the opposite situation where p* &le; p0.  In this case, we may be interested to know how many events it takes such that the experiment would yield a significant result (clearly wrong here) with a probability of no more than 0.01.
-</p>
-
-<h3> Slow-convergence exposed: see for yourself </h3>
-
-<p><i> Guide: Valid probabilities can only take values between 0 and 1 exclusive. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though in order to see a true improvement of 5% in performance.</i> </p>
+<p><i> Guide: Valid probabilities can only take values between 0 and 1 exclusive. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though there is a true improvement of 5% in performance.</i> </p>
 
   <form id="myForm">
     <div style="display:inline-block;">
@@ -86,7 +95,7 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
       <label for="pBaseLine">p0 = </label>
       <input type="text" name="pBaseLine" placeholder="Choose a baseline rate" size="21">
     </div>
-    <input type="submit" id="params_submit" style="background-color: #FFFFC2; border-color: #000000; padding: 4px 8px; border-radius: 4px; border: 1px solid;" value="Get required number of observations"/>
+    <input type="submit" id="params_submit" style="background-color: #FFFFC2; border-color: #000000; padding: 4px 8px; border-radius: 4px; border: 1px solid;" value="Get required number of observations"/> <br> <br>
     <span class="error"></span>
   </form>
 
@@ -102,26 +111,7 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
 </div> 
 </div>
 
-<footer>
-<p>Share this:</p>
-<div id="share-buttons">
-	<!-- LinkedIn -->
-     	<a href="/share?social=http%3A%2F%2Fwww.linkedin.com%2FshareArticle%3Fmini%3Dtrue%26amp%3Burl%3Dhttps%3A%2F%2Fp-value-convergence.herokuapp.com%2F" target="_blank">
-	<img src="static/css/linkedin.png" alt="LinkedIn" />
-     	</a>
-	<!-- Facebook -->
-	<a href="/share?social=http%3A%2F%2Fwww.facebook.com%2Fsharer.php%3Fu%3Dhttps%3A%2F%2Fp-value-convergence.herokuapp.com%2F" target="_blank">
-	<img src="static/css/facebook.png" alt="Facebook" />
-	</a>
-	<!-- Twitter -->
-	<a href="/share?social=https%3A%2F%2Ftwitter.com%2Fshare%3Furl%3Dhttps%3A%2F%2Fp-value-convergence.herokuapp.com%2F" target="_blank">
-	<img src="static/css/twitter.png" alt="Twitter" />
-	</a>
-	<a href="mailto:?subject=Interesting link about statistical significance...&amp;body=Check out https://p-value-convergence.herokuapp.com/" title="Share by Email">
-        <img src="static/css/mail.png">
-        </a>
-</div>
-</footer>
+<!-- <hr style="height:45px;border:none;color:#787878;background-color:#787878 ;" /> -->
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -133,6 +123,10 @@ From early 20th century beer tasting (the <a href="https://en.wikipedia.org/wiki
   ga('send', 'pageview');
 
 </script>
+
+<footer>
+<p>More in-depth <a href="https://github.com/Ranlot/ab-testing">discussion</a> along with source code and mathematical derivations.</p>
+</footer> 
 
 </body>
 </html>

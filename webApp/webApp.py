@@ -123,7 +123,7 @@ def getResult():
 	pStar = float(pStar);
 	pBaseLine = float(pBaseLine);
 	if not np.isclose(pStar, pBaseLine, rtol=0.4):
-		response = jsonify({'message':'This case is not interesting. Go away.'})
+		response = jsonify({'message':"Rates are very different from each other, maybe AB tests are not what you need..."})
 		response.status_code = 400
 		return response
 	if pStar == 0 or pBaseLine == 0:
