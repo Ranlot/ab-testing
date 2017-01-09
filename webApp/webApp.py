@@ -1,15 +1,13 @@
 from flask import Flask
 from flask import request, redirect
 from flask import render_template, Response, jsonify
-from scipy.integrate import quad
-from scipy.special import erfinv
-from scipy.optimize import fsolve
 from scipy.stats import norm
+from scipy import stats
 from math import ceil
 import numpy as np
-from itertools import takewhile
 import re
 import smtplib
+import statsmodels.stats.api as statsModels
 
 app = Flask(__name__)
 
@@ -20,7 +18,13 @@ app = Flask(__name__)
 
 class Parameters:
 
-	significanPvalue = 0.95
+	significantPvalue = 0.95
+        pvalueThreshold = 1 - significantPvalue
+
+        powerValueHigher = 0.9 
+        powerValueSmaller = 0.01
+
+        minEvents = 1
 
 	def __init__(self, pStar, pBaseLine):
         	self.pStar = pStar
@@ -30,27 +34,8 @@ class Parameters:
         	self.pStar = float(self.pStar)
         	self.pBaseLine = float(self.pBaseLine)
 
-	def calculateN(self):
-		return self.pStar + self.pBaseLine
-
-	#define theoretical pdf with a closure
-	def _theoreticalPDF(self, sampleSize):
-		muZ = (self.pStar - self.pBaseLine) * np.sqrt(sampleSize / (self.pBaseLine * (1.0 - self.pBaseLine)))
-		sigZ = np.sqrt( (self.pStar * (1.0 - self.pStar)) / (self.pBaseLine * (1.0 - self.pBaseLine)) )
-		preFactor = np.exp( - muZ**2 / (2.0 * sigZ**2) ) / sigZ
-		def closedPDF(p):
-			return 100.0 * preFactor * np.exp((1.0 - 1.0 / sigZ**2) * erfinv(1 - 2*p)**2) * np.exp(-np.sqrt(2) * muZ / sigZ**2 * erfinv(1- 2*p))
-        	return closedPDF
-
-	def _integralCalculator(self, sampleSize):
-		integralResult = quad(self._theoreticalPDF(sampleSize), self.significanPvalue, 1.0)
-		return integralResult[0]
-
-	def _setUp(self, sampleSize):
-		return self._integralCalculator(sampleSize) - 95.0
-
 	def _normalDistrib(self, desiredSampleSize):
-		numbOfPoints = 50
+	        numbOfPoints = 50
 
 		scaledSTD = np.sqrt(self.pStar * (1.0 - self.pStar) / float(desiredSampleSize))
 		howManySigs = np.abs((self.pStar - self.pBaseLine) / scaledSTD)
@@ -64,52 +49,29 @@ class Parameters:
 		
 		return {'plotData':plotData, 'morrisFlipIndex':morrisFlipIndex}
 
-	def getResultSampleSize(self):
-		numbOfPlotPoints = 50
-		minSampleSize, maxSampleSize = 10, 5000
+        def cohenEffectSize(self):
+                return 2 * (np.arcsin(np.sqrt(self.pStar)) - np.arcsin(np.sqrt(self.pBaseLine)))
+        
+        def normalPower(self, effectSize, nEvents):
+                crit = stats.norm.isf(self.pvalueThreshold) #Inverse survival function sf defined as 1 - cdf
+                return 100 * stats.norm.sf(crit - effectSize * np.sqrt(nEvents))
 
-		sampleSizes = (int(np.floor(sample)) for sample in np.linspace(minSampleSize, maxSampleSize, num=numbOfPlotPoints))
-		plotResults = ({'x':sample, 'y':self._integralCalculator(sample)} for sample in sampleSizes)
+        #------------------------------------------------------------
+        #checkout 7b1ca8e for the previous custom made implementation
+        #------------------------------------------------------------
+        def getResultSampleSize(self):
+                effectSize = self.cohenEffectSize()
+               
+                def sampleSizeFinder(powerValue):
+                    return int(statsModels.NormalIndPower().solve_power(effect_size=effectSize, power=powerValue, alpha=self.pvalueThreshold, alternative="larger") / 2.)
 
-		if self.pStar >= self.pBaseLine:
-			validResults = list(takewhile(lambda plotResult: np.isfinite(plotResult['y']) and plotResult['y'] <= 99.0, plotResults))
-		else:
-			validResults = list(takewhile(lambda plotResult: np.isfinite(plotResult['y']) and plotResult['y'] >= 1.0, plotResults))	
+                sampleSize = sampleSizeFinder(self.powerValueHigher) if self.pStar > self.pBaseLine else sampleSizeFinder(self.powerValueSmaller) if self.pStar < self.pBaseLine else 5000
+                validResults = [{'x':int(sampleSize), 'y':self.normalPower(effectSize, sampleSize)} for sampleSize in np.linspace(self.minEvents, sampleSize, num=50)]
 
-		#print validResults
+                print 'Used pStar = %f ; pBaseLine = %f' % (self.pStar, self.pBaseLine)
+                return {'data':validResults, 'sampleSizeCut':sampleSize, 'normalApprox':self._normalDistrib(sampleSize)}
 
-		numbOfNecessaryIterations = len(validResults)
-
-		if numbOfNecessaryIterations < numbOfPlotPoints:
-
-			if self.pStar >= self.pBaseLine:
-				sampleSizeCut = min(validResults, key=lambda x: np.abs(x['y']-95))['x']
-			else:
-				sampleSizeCut = min(validResults, key=lambda x: np.abs(x['y']-1))['x']
 	
-			sampleSizeCut = int(np.floor(sampleSizeCut))
-		else:
-			if self.pStar >= self.pBaseLine:
-				suggestedCut = fsolve(self._setUp, maxSampleSize)[0]
-				#print suggestedCut
-				verifyCloseness = np.isclose(self._integralCalculator(suggestedCut), 95.0, atol=0.1)
-
-				if verifyCloseness:
-					sampleSizeCut = int(np.floor(suggestedCut))
-					sampleSizes = (int(np.floor(sample)) for sample in np.linspace(minSampleSize, sampleSizeCut, num=numbOfPlotPoints))
-					plotResults = ({'x':sample, 'y':self._integralCalculator(sample)} for sample in sampleSizes)
-					validResults = list(takewhile(lambda plotResult: np.isfinite(plotResult['y']) and plotResult['y'] <= 99.0, plotResults))
-				else:
-					sampleSizeCut = 2 * maxSampleSize
-
-			else:
-				sampleSizeCut = 2 * maxSampleSize
-
-		normalApprox = self._normalDistrib(sampleSizeCut)
-		#print normalApprox
-
-		return {'data':validResults, 'sampleSizeCut':sampleSizeCut, 'normalApprox':self._normalDistrib(sampleSizeCut)}
-
 @app.route('/res', methods=['POST'])
 def getResult():
 	paramsRequest = request.json

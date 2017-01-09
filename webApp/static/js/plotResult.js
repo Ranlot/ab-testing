@@ -74,17 +74,15 @@ $(document).ready(function() {
 			$('#params_submit').prop('disabled', false);
 			$('#myForm .error').text('');
 
-			var maxSampleSize = 5000;  //this value should actually be inherited from the backend....
-
 			var plotData = data['data']
 			var sampleSizeCut = data['sampleSizeCut']
 
 			if (pStar === pBaseLine) {
 				var text2print = "Probability of getting significant p-value even though there is absolutely no difference."
 			} else if (pStar < pBaseLine)  {
-				var text2print = sampleSizeCut <= maxSampleSize ? "The parameters you chose guarantee a decrease in performance of about " + guaranteedRateChange.toFixed(1) + "%. However, the probability to wrongfully observe a significant p-value would decrease to about 1% only after about N* = " + addCommas(sampleSizeCut) + " events." : "Did not converge even after " + maxSampleSize + " events.";
+				var text2print = "The parameters you chose guarantee a decrease in performance of about " + guaranteedRateChange.toFixed(1) + "%. However, the probability to wrongfully observe a significant p-value would decrease to about 1% only after about N* = " + addCommas(sampleSizeCut) + " events.";
 			} else {
-				var text2print = "The parameters you chose guarantee an increase in performance of " + guaranteedRateChange.toFixed(1) + "%.  After about N* = " + addCommas(sampleSizeCut) + " events, the probability to get a significant p-value would be at least 0.95."
+				var text2print = "The parameters you chose guarantee an increase in performance of " + guaranteedRateChange.toFixed(1) + "%.  After about N* = " + addCommas(sampleSizeCut) + " events, the probability to get a significant p-value would be at least 0.9."
 			}
 
 			$('#result').text(text2print);

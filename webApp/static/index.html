@@ -76,15 +76,15 @@
 <p> One important consequence is that the p-value obtained by the single test described above cannot be taken at face value since it is itself a random variable with a complicated statistical distribution.  Therefore, an interesting question becomes: </p>
 
 <div style="width:78%;margin-left:10%;background-color: #FFFFC2; border-color: #000000; border-radius: 4px; border: 1px solid; padding: 4px 8px;">
-<p> Given a "baseline rate" p0, a "true success rate" p* &ge; p0, how many events N do we need until <b>our single test</b> would yield a significant conclusion (as it should) with probability of at least 0.95? The calculator below allows you to explore this question and discover a surprisingly slow convergence rate leading to rather high values of N...</p>
+	<p> Given a "baseline rate" p0, a "true success rate" p* &ge; p0, how many events N do we need until <b>our single test</b> yields a significant conclusion (as it should) with a probability of at least 0.9? In other words, how many events do we need in order to reduce the probability of observing a falsely non-significant result drops below 0.1. This kind of analysis is usually referred to as the "<a href="https://en.wikipedia.org/wiki/Statistical_power">power</a>" of the hypothesis testing. </p>
 </div>
 
-<p> Note that the tool below allows one to also investigate the opposite situation where p* &le; p0.  In this case, we may be interested to know how many events it takes such that the experiment would yield a significant result (clearly the wrong conclusion) with a probability of no more than 0.01.
+<p> The calculator below allows you to explore this question and discover a surprisingly slow convergence rate leading to rather high values of N...  Note that the same tool allows one to also investigate the opposite situation where p* &le; p0.  In this case, we may be interested to know how many events it takes such that the experiment would yield a significant result (clearly the wrong conclusion) with a probability of no more than 0.01.
 </p>
 
 <h3>Slow convergence exposed: see for yourself</h3>
 
-<p><i> Guide: Valid probabilities can only take values between 0 and 1 exclusive. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 27,000 events in order to ensure that the probability of observing a significant result is at least 0.95.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it would take more than 1 million events even though there is a true improvement of 5% in performance.</i> </p>
+<p><i> Guide: Valid probabilities can only take values between 0 and 1 exclusive. For example, you can start with p* = 0.51 and p0 = 0.5 in order to see that one needs to wait 20,000 events in order to ensure that the probability of observing a significant result is at least 0.9.  Business intelligence readers may be more interested in numbers such as p* = 0.0042 and p0 = 0.004 typical of so called click-through rates.  In this case, it takes almost 1 million events even though there is a true improvement of 5% in performance.</i> </p>
 
   <form id="myForm">
     <div style="display:inline-block;">
